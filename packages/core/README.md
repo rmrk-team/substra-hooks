@@ -13,6 +13,18 @@ yarn add @substra-hooks/core
 Use it in your React app:
 
 ```jsx
+import React from 'react'
+import { SubstraHooksProvider } from '@substra-hooks/core'
+
+// Wrap everything in <SubstraHooksProvider />
+export default () => (
+  <SubstraHooksProvider wsProviderUrl="wss://kusama-rpc.polkadot.io">
+    <App />
+  </SubstraHooksProvider>
+)
+```
+
+```jsx
 // App.js
 
 import React from 'react'
@@ -30,18 +42,6 @@ const App = () => {
         </>
     )
 }
-```
-
-```jsx
-import React from 'react'
-import { SubstraHooksProvider } from '@substra-hooks/core'
-
-// Wrap everything in <SubstraHooksProvider />
-export default () => (
-  <SubstraHooksProvider wsProviderUrl="wss://kusama-rpc.polkadot.io">
-    <App />
-  </SubstraHooksProvider>
-)
 ```
 
 If your app is using SSR (i.e. next.js) then you need to dynamically import Provider with no SSR, create your own local Provider first
