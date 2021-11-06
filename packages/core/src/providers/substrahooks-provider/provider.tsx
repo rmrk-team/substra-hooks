@@ -10,6 +10,7 @@ let polkadotApi: ApiPromise;
 
 interface ISubstraHooksProviderProps {
   wsProviderUrl: string;
+  autoInitialise?: boolean;
   children: ReactNode;
 }
 
@@ -30,7 +31,7 @@ const fetchSystemPropertiesAndSet = async (
 };
 
 export const createSubstraHooksProvider = () => {
-  const SubstraHooksProvider = ({ children, wsProviderUrl }: ISubstraHooksProviderProps) => {
+  const SubstraHooksProvider = ({ children, wsProviderUrl, autoInitialise }: ISubstraHooksProviderProps) => {
     const [api, setApi] = useState<ApiPromise | null>(null);
     const [systemProperties, setSystemProperties] = useState<ISystemProperties | null>(null);
 
@@ -53,7 +54,7 @@ export const createSubstraHooksProvider = () => {
 
     return (
       <SubstraHooksContext.Provider value={{ apiProvider: api, systemProperties }}>
-        <ExtensionProvider>{children}</ExtensionProvider>
+        <ExtensionProvider autoInitialise={autoInitialise}>{children}</ExtensionProvider>
       </SubstraHooksContext.Provider>
     );
   };
