@@ -15,7 +15,7 @@ export const initialState: ExtensionState = {
 export const ExtensionContext = createContext<{
   state: ExtensionState;
   dispatch: Dispatch<ExtensionActions>;
-  extensionName: string;
+  extensionName?: string;
 }>({
   state: initialState,
   dispatch: () => null,

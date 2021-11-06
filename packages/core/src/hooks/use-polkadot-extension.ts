@@ -10,7 +10,7 @@ interface UsePolkadotExtensionReturnType extends ExtensionState {
 }
 
 export const checkEnabled = async (
-  extensionName: string,
+  extensionName: string = 'polkadot-extension',
   dispatch: Dispatch<ExtensionActions>,
   systemProperties: ISystemProperties,
 ) => {

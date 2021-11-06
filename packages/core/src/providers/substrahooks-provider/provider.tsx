@@ -3,6 +3,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { SubstraHooksContext } from './context';
 import { ISystemProperties } from '../../types/system-properties';
 import { fetchSystemProperties } from '../../helpers/fetch-system-properties';
+import { ExtensionProvider } from '../extension';
 
 let wsProvider: WsProvider;
 let polkadotApi: ApiPromise;
@@ -51,10 +52,9 @@ export const createSubstraHooksProvider = () => {
     }, [api]);
 
     return (
-      <SubstraHooksContext.Provider
-        value={{ apiProvider: api, systemProperties }}
-        children={children}
-      />
+      <SubstraHooksContext.Provider value={{ apiProvider: api, systemProperties }}>
+        <ExtensionProvider>{children}</ExtensionProvider>
+      </SubstraHooksContext.Provider>
     );
   };
 

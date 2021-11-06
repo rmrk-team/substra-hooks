@@ -6,7 +6,7 @@ import { checkEnabled } from '../../hooks/use-polkadot-extension';
 
 interface ExtensionProviderProps {
   children: ReactNode;
-  extensionName: string;
+  extensionName?: string;
   autoInitialise?: boolean;
 }
 
