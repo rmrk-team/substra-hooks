@@ -13,8 +13,10 @@ interface BalanceReturnType {
 export const useAccountBalance = (account: string): BalanceReturnType | null => {
   const systemProperties = useSystemProperties();
   const apiProvider = useContext(SubstraHooksContext).apiProvider;
-  const [balanceFormatted, setBalanceFormatted] = useState<string | null>(null);
-  const [balanceRaw, setBalanceRaw] = useState<bigint | null>(null);
+  const [balance, setBalance] = useState<BalanceReturnType>({
+    balanceRaw: null,
+    balanceFormatted: null,
+  });
 
   const listenToBalances = async (
     account: string,
@@ -24,8 +26,7 @@ export const useAccountBalance = (account: string): BalanceReturnType | null => 
     api.query.system.account(account, ({ data: { free: currentFree } }) => {
       const balance = currentFree.toBigInt();
       const balanceFormatted = formatPrice(balance, systemProperties, true);
-      setBalanceFormatted(balanceFormatted);
-      setBalanceRaw(balance);
+      setBalance({ balanceRaw: balance, balanceFormatted: balanceFormatted });
     });
   };
 
@@ -35,5 +36,5 @@ export const useAccountBalance = (account: string): BalanceReturnType | null => 
     }
   }, [apiProvider, systemProperties]);
 
-  return { balanceFormatted, balanceRaw };
+  return balance;
 };
