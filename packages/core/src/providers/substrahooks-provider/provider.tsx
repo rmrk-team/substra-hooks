@@ -36,22 +36,22 @@ export const createSubstraHooksProvider = () => {
     useEffect(() => {
       if (wsProviderUrl && !api) {
         initPolkadotPromise(wsProviderUrl).then(({ polkadotApi }) => {
-          if (isMountedRef) {
+          if (isMountedRef.current) {
             setApi(polkadotApi);
           }
         });
       }
-    }, [wsProviderUrl, api]);
+    }, [wsProviderUrl, api, isMountedRef]);
 
     useEffect(() => {
       if (api && !systemProperties) {
         fetchSystemProperties(api).then((newSystemProperties) => {
-          if (isMountedRef) {
+          if (isMountedRef.current) {
             setSystemProperties(newSystemProperties);
           }
         });
       }
-    }, [api, systemProperties]);
+    }, [api, systemProperties, isMountedRef]);
 
     return (
       <SubstraHooksContext.Provider value={{ apiProvider: api, systemProperties }}>

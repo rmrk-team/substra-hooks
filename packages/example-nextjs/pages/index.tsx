@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const { accounts } = usePolkadotExtension();
   const balancePayload = useAccountBalance(accounts?.[5]?.address || '');
 
-  console.log('balancePayload', balancePayload);
+  console.log('balancePayload', accounts?.[5]?.address || '', balancePayload);
 
   return (
     <div className={styles.container}>
