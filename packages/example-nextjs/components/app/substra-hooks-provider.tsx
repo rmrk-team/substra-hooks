@@ -7,7 +7,6 @@ interface ISubstraHooksProviderProps {
 }
 
 const SubstraHooksProviderSSR = ({ wsProviderUrl, children }: ISubstraHooksProviderProps) => {
-    console.log('YOYO');
     const SubstraHooksProvider = createSubstraHooksProvider();
     return <SubstraHooksProvider wsProviderUrl={wsProviderUrl} autoInitialise>{children}</SubstraHooksProvider>;
 };
