@@ -1,6 +1,5 @@
 import { ExtensionState, useExtensionState } from '../providers/extension';
 import { Dispatch, useEffect, useState } from 'react';
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { ExtensionActions, Types } from '../providers/extension/reducer';
 import { useSystemProperties } from './use-system-properties';
 import { ISystemProperties } from '../types/system-properties';
@@ -14,8 +13,9 @@ export const checkEnabled = async (
   dispatch: Dispatch<ExtensionActions>,
   systemProperties: ISystemProperties,
 ) => {
+  const extensionDapp = await import('@polkadot/extension-dapp');
+  const { web3Accounts, web3Enable } = extensionDapp;
   const enabledApps = await web3Enable(extensionName);
-
   const w3Enabled = enabledApps.length > 0;
 
   if (w3Enabled) {

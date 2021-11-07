@@ -4,6 +4,7 @@ import { SubstraHooksContext } from './context';
 import { ISystemProperties } from '../../types/system-properties';
 import { fetchSystemProperties } from '../../helpers/fetch-system-properties';
 import { ExtensionProvider } from '../extension';
+import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 
 let wsProvider: WsProvider;
 let polkadotApi: ApiPromise;
@@ -22,35 +23,35 @@ export const initPolkadotPromise = async (wsProviderUrl: string) => {
   return { wsProvider, polkadotApi };
 };
 
-const fetchSystemPropertiesAndSet = async (
-  api: ApiPromise,
-  setSystemProperties: (systemProperties: ISystemProperties) => void,
-) => {
-  const systemProperties = await fetchSystemProperties(api);
-  setSystemProperties(systemProperties);
-};
-
 export const createSubstraHooksProvider = () => {
-  const SubstraHooksProvider = ({ children, wsProviderUrl, autoInitialise }: ISubstraHooksProviderProps) => {
+  const SubstraHooksProvider = ({
+    children,
+    wsProviderUrl,
+    autoInitialise,
+  }: ISubstraHooksProviderProps) => {
+    const isMountedRef = useIsMountedRef();
     const [api, setApi] = useState<ApiPromise | null>(null);
     const [systemProperties, setSystemProperties] = useState<ISystemProperties | null>(null);
 
-    const initAndSetApi = async (wsProviderUrl: string) => {
-      const { polkadotApi } = await initPolkadotPromise(wsProviderUrl);
-      setApi(polkadotApi);
-    };
-
     useEffect(() => {
       if (wsProviderUrl && !api) {
-        initAndSetApi(wsProviderUrl);
+        initPolkadotPromise(wsProviderUrl).then(({ polkadotApi }) => {
+          if (isMountedRef) {
+            setApi(polkadotApi);
+          }
+        });
       }
-    }, [wsProviderUrl]);
+    }, [wsProviderUrl, api]);
 
     useEffect(() => {
-      if (api) {
-        fetchSystemPropertiesAndSet(api, setSystemProperties);
+      if (api && !systemProperties) {
+        fetchSystemProperties(api).then((newSystemProperties) => {
+          if (isMountedRef) {
+            setSystemProperties(newSystemProperties);
+          }
+        });
       }
-    }, [api]);
+    }, [api, systemProperties]);
 
     return (
       <SubstraHooksContext.Provider value={{ apiProvider: api, systemProperties }}>

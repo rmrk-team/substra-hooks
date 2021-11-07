@@ -11,7 +11,7 @@
     ]
   },
   "scripts": {
-    "build": "wsrun -e -c -s build",
+    "build": "wsrun -e -c -s -x example-nextjs build",
     "test": "wsrun -e -c -s --exclude-missing test",
     "release": "yarn build && yarn changeset publish"
   },
