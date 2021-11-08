@@ -3,6 +3,7 @@ import { ApiPromise } from '@polkadot/api';
 import { formatPrice } from './format-price';
 import { fetchSystemProperties } from './fetch-system-properties';
 import { BalanceReturnType } from './get-account-balance';
+import {hexToString} from "@polkadot/util";
 
 export const getAssetBalance = async (
   account: string,
@@ -18,7 +19,7 @@ export const getAssetBalance = async (
       getAsset.metadata(assetId).then((data) => {
         const balanceRaw = accountData.balance.toBigInt();
         const tokenDecimals = data.decimals.toNumber();
-        const tokenSymbol = data.symbol.toString();
+        const tokenSymbol = hexToString(data.symbol.toHex());
         const balanceFormatted = formatPrice(
           balanceRaw,
           { tokenDecimals, tokenSymbol, ss58Format: _systemProperties.ss58Format },

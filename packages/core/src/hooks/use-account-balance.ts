@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
-import { SubstraHooksContext } from '../providers/substrahooks-provider/context';
+import { useEffect, useState } from 'react';
 import { useSystemProperties } from './use-system-properties';
 import { useIsMountedRef } from '../helpers/use-is-mounted-ref';
-import {BalanceReturnType, getAccountBalance} from "../helpers/get-account-balance";
+import { BalanceReturnType, getAccountBalance } from '../helpers/get-account-balance';
+import { useApiProvider } from './use-api-provider';
 
 export const useAccountBalance = (account: string): BalanceReturnType | null => {
   const isMountedRef = useIsMountedRef();
   const systemProperties = useSystemProperties();
-  const apiProvider = useContext(SubstraHooksContext).apiProvider;
+  const apiProvider = useApiProvider();
   const [balance, setBalance] = useState<BalanceReturnType>({
     balanceRaw: null,
     balanceFormatted: null,

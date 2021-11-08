@@ -1,61 +1,65 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { SubstraHooksContext } from './context';
-import { ISystemProperties } from '../../types/system-properties';
+import { ApiProviders, SubstraHooksContext } from './context';
 import { fetchSystemProperties } from '../../helpers/fetch-system-properties';
 import { ExtensionProvider } from '../extension';
 import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 
-let wsProvider: WsProvider;
-let polkadotApi: ApiPromise;
+const apiProviders: ApiProviders = {};
+
+export type ApiProviderConfig = { id: string; wsProviderUrl: string }[];
 
 interface ISubstraHooksProviderProps {
-  wsProviderUrl: string;
-  autoInitialise?: boolean;
+  apiProviderConfig: ApiProviderConfig;
+  defaultApiProviderId: string;
+  autoInitialiseExtension?: boolean;
   children: ReactNode;
 }
 
-export const initPolkadotPromise = async (wsProviderUrl: string) => {
-  if (wsProvider && polkadotApi) return { wsProvider, polkadotApi };
-  wsProvider = new WsProvider(wsProviderUrl);
-  polkadotApi = await ApiPromise.create({ provider: wsProvider });
+export const initPolkadotPromise = async (id: string, wsProviderUrl: string) => {
+  if (apiProviders[id]) return apiProviders[id];
+  const wsProvider = new WsProvider(wsProviderUrl);
+  const polkadotApi = await ApiPromise.create({ provider: wsProvider });
   await polkadotApi.isReady;
-  return { wsProvider, polkadotApi };
+  const systemProperties = await fetchSystemProperties(polkadotApi);
+  apiProviders[id] = {
+    systemProperties,
+    apiProvider: polkadotApi,
+  };
+  return apiProviders[id];
+};
+
+const initAllApis = async (apiProviderConfig: { id: string; wsProviderUrl: string }[]) => {
+  return Promise.all(
+    apiProviderConfig.map(async (config) => initPolkadotPromise(config.id, config.wsProviderUrl)),
+  );
 };
 
 export const createSubstraHooksProvider = () => {
   const SubstraHooksProvider = ({
     children,
-    wsProviderUrl,
-    autoInitialise,
+    apiProviderConfig,
+    defaultApiProviderId,
+    autoInitialiseExtension,
   }: ISubstraHooksProviderProps) => {
     const isMountedRef = useIsMountedRef();
-    const [api, setApi] = useState<ApiPromise | null>(null);
-    const [systemProperties, setSystemProperties] = useState<ISystemProperties | null>(null);
+    const [apiInitialised, setApiInitialised] = useState(false);
 
     useEffect(() => {
-      if (wsProviderUrl && !api) {
-        initPolkadotPromise(wsProviderUrl).then(({ polkadotApi }) => {
+      if (apiProviderConfig && !apiInitialised) {
+        initAllApis(apiProviderConfig).then((_apiProviders) => {
           if (isMountedRef.current) {
-            setApi(polkadotApi);
+            setApiInitialised(true);
           }
         });
       }
-    }, [wsProviderUrl, api, isMountedRef]);
-
-    useEffect(() => {
-      if (api && !systemProperties) {
-        fetchSystemProperties(api).then((newSystemProperties) => {
-          if (isMountedRef.current) {
-            setSystemProperties(newSystemProperties);
-          }
-        });
-      }
-    }, [api, systemProperties, isMountedRef]);
+    }, [apiProviderConfig, apiInitialised, isMountedRef]);
 
     return (
-      <SubstraHooksContext.Provider value={{ apiProvider: api, systemProperties }}>
-        <ExtensionProvider autoInitialise={autoInitialise}>{children}</ExtensionProvider>
+      <SubstraHooksContext.Provider value={{ apiProviders, defaultApiProviderId }}>
+        <ExtensionProvider autoInitialiseExtension={autoInitialiseExtension}>
+          {children}
+        </ExtensionProvider>
       </SubstraHooksContext.Provider>
     );
   };
