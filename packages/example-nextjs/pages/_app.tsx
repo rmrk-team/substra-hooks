@@ -8,16 +8,16 @@ const SubstraHooksProviderSSR = dynamic(() => import('../components/app/substra-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SubstraHooksProviderSSR
-      apiProviderConfig={[
-        {
+      apiProviderConfig={{
+        kusama: {
           id: 'kusama',
           wsProviderUrl: 'wss://kusama-rpc.polkadot.io',
         },
-        {
+        statemine: {
           id: 'statemine',
           wsProviderUrl: 'wss://kusama-statemine-rpc.paritytech.net',
         },
-      ]}>
+      }}>
       <Component {...pageProps} />
     </SubstraHooksProviderSSR>
   );

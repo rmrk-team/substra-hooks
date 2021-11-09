@@ -7,10 +7,10 @@ import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 
 const apiProviders: ApiProviders = {};
 
-export type ApiProviderConfig = { id: string; wsProviderUrl: string }[];
+export type ApiProviderConfig = Record<string, { id: string; wsProviderUrl: string }>;
 
 interface ISubstraHooksProviderProps {
-  apiProviderConfig: ApiProviderConfig;
+  apiProviderConfig: ApiProviderConfig | null;
   defaultApiProviderId: string;
   autoInitialiseExtension?: boolean;
   children: ReactNode;
@@ -29,9 +29,14 @@ export const initPolkadotPromise = async (id: string, wsProviderUrl: string) => 
   return apiProviders[id];
 };
 
-const initAllApis = async (apiProviderConfig: { id: string; wsProviderUrl: string }[]) => {
+const initAllApis = async (apiProviderConfig: ApiProviderConfig) => {
   return Promise.all(
-    apiProviderConfig.map(async (config) => initPolkadotPromise(config.id, config.wsProviderUrl)),
+    Object.keys(apiProviderConfig).map(async (configId) =>
+      initPolkadotPromise(
+        apiProviderConfig[configId].id,
+        apiProviderConfig[configId].wsProviderUrl,
+      ),
+    ),
   );
 };
 
