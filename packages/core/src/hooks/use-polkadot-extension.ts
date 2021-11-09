@@ -1,8 +1,9 @@
 import { ExtensionState, useExtensionState } from '../providers/extension';
-import { Dispatch, useEffect, useState } from 'react';
-import { ExtensionActions, Types } from '../providers/extension/reducer';
+import { useEffect, useState } from 'react';
 import { useSystemProperties } from './use-system-properties';
 import { ISystemProperties } from '../types/system-properties';
+import { Types } from '../providers/extension/reducer';
+import { useIsMountedRef } from '../helpers/use-is-mounted-ref';
 
 interface UsePolkadotExtensionReturnType extends ExtensionState {
   w3enable: () => void;
@@ -10,7 +11,7 @@ interface UsePolkadotExtensionReturnType extends ExtensionState {
 
 export const checkEnabled = async (
   extensionName: string = 'polkadot-extension',
-  dispatch: Dispatch<ExtensionActions>,
+
   systemProperties: ISystemProperties,
 ) => {
   const extensionDapp = await import('@polkadot/extension-dapp');
@@ -18,25 +19,17 @@ export const checkEnabled = async (
   const enabledApps = await web3Enable(extensionName);
   const w3Enabled = enabledApps.length > 0;
 
+  let accounts = null;
+
   if (w3Enabled) {
-    const allAccounts = await web3Accounts({ ss58Format: systemProperties.ss58Format });
-    dispatch({
-      type: Types.ACCOUNTS_SET,
-      payload: {
-        accounts: allAccounts,
-      },
-    });
+    accounts = await web3Accounts({ ss58Format: systemProperties.ss58Format });
   }
 
-  dispatch({
-    type: Types.W3_ENABLE,
-    payload: {
-      w3Enabled,
-    },
-  });
+  return { accounts, w3Enabled };
 };
 
 export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
+  const isMountedRef = useIsMountedRef();
   const { state, dispatch, extensionName } = useExtensionState();
   const { w3Enabled, accounts } = state;
   const [ready, setReady] = useState(false);
@@ -44,7 +37,25 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
 
   useEffect(() => {
     if (ready && systemProperties && !w3Enabled) {
-      checkEnabled(extensionName, dispatch, systemProperties);
+      checkEnabled(extensionName, systemProperties).then(({ accounts, w3Enabled }) => {
+        if (isMountedRef) {
+          if (w3Enabled) {
+            dispatch({
+              type: Types.ACCOUNTS_SET,
+              payload: {
+                accounts,
+              },
+            });
+          }
+
+          dispatch({
+            type: Types.W3_ENABLE,
+            payload: {
+              w3Enabled,
+            },
+          });
+        }
+      });
     }
   }, [ready, w3Enabled, systemProperties]);
 

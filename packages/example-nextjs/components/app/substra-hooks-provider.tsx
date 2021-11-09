@@ -10,7 +10,7 @@ interface ISubstraHooksProviderProps {
 const SubstraHooksProviderSSR = ({ apiProviderConfig, children }: ISubstraHooksProviderProps) => {
   const SubstraHooksProvider = createSubstraHooksProvider();
   return (
-    <SubstraHooksProvider apiProviderConfig={apiProviderConfig} defaultApiProviderId={'kusama'} autoInitialiseExtension>
+    <SubstraHooksProvider apiProviderConfig={apiProviderConfig} defaultApiProviderId={'kusama'}>
       {children}
     </SubstraHooksProvider>
   );
