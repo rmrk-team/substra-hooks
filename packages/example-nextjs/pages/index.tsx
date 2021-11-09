@@ -3,11 +3,20 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import {useAccountBalance, useAssetBalance, usePolkadotExtension} from '@substra-hooks/core';
+import {useEffect} from "react";
 
 const Home: NextPage = () => {
-  const { accounts } = usePolkadotExtension();
+  const { accounts, w3enable, w3Enabled } = usePolkadotExtension();
   const balancePayload = useAccountBalance(accounts?.[5]?.address || '');
   const assetPayload = useAssetBalance(accounts?.[5]?.address || '', 8, 'statemine');
+
+  useEffect(() => {
+    if (!w3Enabled) {
+      w3enable();
+    }
+  }, [w3Enabled])
+
+  console.log('accounts', accounts)
 
   console.log('balancePayload', accounts?.[5]?.address || '', balancePayload);
   console.log('assetPayload', assetPayload);
