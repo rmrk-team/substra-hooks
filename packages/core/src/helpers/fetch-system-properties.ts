@@ -26,12 +26,11 @@ export const fetchSystemProperties = async (polkadotApi: ApiPromise) => {
 
   let ss58FormatFinal = systemPropertiesDefaults.ss58Format;
   try {
-    ss58FormatFinal =
-      typeof parseInt(ss58Format as string) === 'number'
-        ? parseInt(ss58Format as string)
-        : ss58FormatFinal;
+    ss58FormatFinal = !isNaN(parseInt(ss58Format as string))
+      ? parseInt(ss58Format as string)
+      : ss58FormatFinal;
   } catch (error: any) {
-    console.log(error)
+    console.log(error);
   }
 
   return {
