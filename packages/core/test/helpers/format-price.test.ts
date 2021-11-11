@@ -39,7 +39,7 @@ describe('utils: bigIntPriceToNumber', () => {
   });
 
   it('Should return fixed price to be displayed to user', () => {
-    expect(bigIntPriceToNumber(0n, systemProperties)).toEqual(0);
+    expect(bigIntPriceToNumber(BigInt(0), systemProperties)).toEqual(0);
   });
 
   it('Should return fixed price to be displayed to user', () => {

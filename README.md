@@ -1,3 +1,1 @@
-# Substrate React Hooks
-
-Inspired by [useDapps](https://github.com/EthWorks/useDApp)
+./packages/core/README.md

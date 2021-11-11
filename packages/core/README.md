@@ -12,26 +12,56 @@ yarn add @substra-hooks/core
 
 Use it in your React app:
 
-```jsx
+```tsx
 import React from 'react'
-import { SubstraHooksProvider } from '@substra-hooks/core'
+import { SubstraHooksProvider } from '@substra-hooks/core';
+
+export enum NETWORKS {
+    kusama = 'kusama',
+    statemine = 'statemine',
+}
+
+const apiProviderConfig = {
+    [NETWORKS.kusama]: {
+        id: NETWORKS.kusama,
+        wsProviderUrl: 'wss://kusama-rpc.polkadot.io',
+    },
+    [NETWORKS.statemine]: {
+        id: NETWORKS.statemine,
+        wsProviderUrl: 'wss://kusama-statemine-rpc.paritytech.net',
+    },
+}
 
 // Wrap everything in <SubstraHooksProvider />
 export default () => (
-  <SubstraHooksProvider wsProviderUrl="wss://kusama-rpc.polkadot.io">
-    <App />
-  </SubstraHooksProvider>
+    <SubstraHooksProvider apiProviderConfig={apiProviderConfig} defaultApiProviderId={NETWORKS.kusama}>
+        <App />
+    </SubstraHooksProvider>
 )
 ```
 
-```jsx
-// App.js
-
+```tsx
+// App.tsx
 import React from 'react'
-import { useAccountBalance } from '@substra-hooks/core'
+import { useAccountBalance, useSystemProperties, useAssetBalance } from '@substra-hooks/core'
 
 const App = () => {
-    const { balanceRaw, balanceFormatted } = useAccountBalance(userEncodedAddress);
+    const { accounts, w3enable, w3Enabled } = usePolkadotExtension();
+    const { balanceFormatted } = useAccountBalance(accounts?.[0]?.address || '');
+    const assetPayload = useAssetBalance(accounts?.[0]?.address || '', 8, NETWORKS.statemine);
+    const systemProperties = useSystemProperties()
+
+    console.log('systemProperties', systemProperties)
+
+    useEffect(() => {
+        if (!w3Enabled) {
+            w3enable();
+        }
+    }, [w3Enabled])
+
+    console.log('accounts', accounts)
+    console.log('balanceFormatted', accounts?.[5]?.address || '', balanceFormatted);
+    console.log('assetPayload', assetPayload);
 
     return (
         <>
@@ -51,14 +81,20 @@ import { ReactNode } from 'react';
 import { createSubstraHooksProvider } from '@substra-hooks/core';
 
 interface ISubstraHooksProviderProps {
-    wsProviderUrl: string;
+    apiProviderConfig: ApiProviderConfig;
     children: ReactNode;
 }
 
 const SubstraHooksProvider = createSubstraHooksProvider();
 
-const SubstraHooksProviderSSR = ({ wsProviderUrl, children }: ISubstraHooksProviderProps) => {
-    return <SubstraHooksProvider wsProviderUrl={wsProviderUrl}>{children}</SubstraHooksProvider>;
+const SubstraHooksProviderSSR = ({ apiProviderConfig, children }: ISubstraHooksProviderProps) => {
+    return (
+        <SubstraHooksProvider
+            apiProviderConfig={apiProviderConfig}
+            defaultApiProviderId={NETWORKS.kusama}>
+            {children}
+        </SubstraHooksProvider>
+    );
 };
 
 export default SubstraHooksProviderSSR;
@@ -83,10 +119,82 @@ export default MyApp;
 
 ## API
 
+### Providers
 
-TODO
+#### SubstraHooksProvider
+Main Provider that includes `ExtensionProvider`
 
-## Examples
+#### ExtensionProvider
+Provider that mainly deals with `polkadot browser extension`
 
-TODO
+### Hooks
+
+#### useApiProvider
+
+Returns polkadot.js `ApiPromise`. Returns default `ApiPromise` as defined by `defaultApiProviderId` on SubstraHooksProvider, additional argument can be passed to return different `ApiPromise` from default one
+
+`const polkadotStatemineApi = useApiProvider('statemine');`
+
+#### useSystemProperties
+
+Returns parsed results of `polkadotApi.rpc.system.properties` API in following format.
+```ts
+{
+    tokenDecimals: number;
+    tokenSymbol: string;
+    ss58Format: number;
+}
+```
+
+Returns system properties fetched from the chain connected by your default api provider, additional argument can be passed to return different system properties from different node
+
+`const systemProperties = useSystemProperties()`
+
+#### useAccountBalance
+
+Returns token balance of given address from the default node.
+
+`const { balanceFormatted, balanceRaw } = useAccountBalance(userEncodedAddress);`
+
+#### useAssetBalance
+
+Returns balance of specified asset id for given address from the default node.
+
+```tsx
+const { balanceFormatted, balanceRaw } = useAssetBalance(
+    userEncodedAddress,
+    ASSET_ID,
+    'statemine',
+);
+```
+
+#### useEncodedAddress
+
+Returns substrate address in a format of `ss58Format` of your default chain node
+
+`const ownerAddressEncoded = useEncodedAddress(owner);`
+
+#### usePolkadotExtension
+
+```tsx
+import {useEffect} from "react";
+...
+const { w3Enabled, w3enable, accounts } = usePolkadotExtension();
+
+const initialise = () => {
+    if (!w3Enabled) {
+        w3enable();
+    }
+};
+
+useEffect(() => {
+    if (!w3Enabled) {
+        initialise();
+    }
+}, [w3Enabled])
+
+console.log(accounts);
+
+```
+
 
