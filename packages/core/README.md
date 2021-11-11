@@ -2,6 +2,8 @@
 
 SubstraHooks is a collection of useful react hooks that work with substrate blockchains
 
+inspired by [useDApp](https://github.com/EthWorks/useDApp)
+
 ## Usage
 
 Add it to your project:
