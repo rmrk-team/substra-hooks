@@ -1,6 +1,7 @@
 {
   "name": "substra-hooks",
   "private": true,
+  "version": "0.0.17",
   "engines": {
     "node": ">=14",
     "yarn": "^1.22.11"
