@@ -7,8 +7,9 @@ interface ISubstraHooksProviderProps {
   children: ReactNode;
 }
 
+const SubstraHooksProvider = createSubstraHooksProvider();
+
 const SubstraHooksProviderSSR = ({ apiProviderConfig, children }: ISubstraHooksProviderProps) => {
-  const SubstraHooksProvider = createSubstraHooksProvider();
   return (
     <SubstraHooksProvider apiProviderConfig={apiProviderConfig} defaultApiProviderId={'kusama'}>
       {children}

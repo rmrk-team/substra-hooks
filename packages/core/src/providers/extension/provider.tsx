@@ -42,7 +42,7 @@ export const ExtensionProvider = ({
         }
       });
     }
-  }, [systemProperties, autoInitialiseExtension]);
+  }, [JSON.stringify(systemProperties), autoInitialiseExtension]);
 
   return (
     <ExtensionContext.Provider value={{ state, dispatch, extensionName }} children={children} />

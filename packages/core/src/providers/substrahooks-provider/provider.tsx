@@ -58,7 +58,7 @@ export const createSubstraHooksProvider = () => {
           }
         });
       }
-    }, [apiProviderConfig, apiInitialised, isMountedRef]);
+    }, [JSON.stringify(apiProviderConfig), apiInitialised, isMountedRef]);
 
     return (
       <SubstraHooksContext.Provider value={{ apiProviders, defaultApiProviderId }}>
