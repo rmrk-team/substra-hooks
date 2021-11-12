@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { ISystemProperties } from '../../types/system-properties';
 
-export type ApiProvider = { apiProvider: ApiPromise; systemProperties: ISystemProperties };
+export type ApiProvider = { apiProvider: ApiPromise | null; systemProperties: ISystemProperties };
 export type ApiProviders = Record<string, ApiProvider>;
 
 export const SubstraHooksContext = createContext<{
