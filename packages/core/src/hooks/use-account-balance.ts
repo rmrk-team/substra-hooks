@@ -17,7 +17,7 @@ export const useAccountBalance = (account: string): BalanceReturnType | null => 
     if (account && apiProvider && systemProperties) {
       if (account && apiProvider && systemProperties) {
         const callback = ({ balanceFormatted, balanceRaw }: BalanceReturnType) => {
-          if (isMountedRef.current) {
+          if (isMountedRef) {
             setBalance({ balanceFormatted, balanceRaw });
           }
         };

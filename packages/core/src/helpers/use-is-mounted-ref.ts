@@ -7,6 +7,6 @@ export const useIsMountedRef = () => {
     return () => {
       isMountedRef.current = false;
     };
-  });
-  return isMountedRef;
+  }, []);
+  return isMountedRef.current;
 };

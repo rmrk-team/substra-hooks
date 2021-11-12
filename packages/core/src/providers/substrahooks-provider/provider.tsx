@@ -53,7 +53,7 @@ export const createSubstraHooksProvider = () => {
     useEffect(() => {
       if (apiProviderConfig && !apiInitialised) {
         initAllApis(apiProviderConfig).then((_apiProviders) => {
-          if (isMountedRef.current) {
+          if (isMountedRef) {
             setApiInitialised(true);
           }
         });
