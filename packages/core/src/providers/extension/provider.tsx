@@ -23,7 +23,7 @@ export const ExtensionProvider = ({
   useEffect(() => {
     if (autoInitialiseExtension && systemProperties && !state.w3Enabled) {
       checkEnabled(extensionName, systemProperties).then(({ accounts, w3Enabled }) => {
-        if (isMountedRef) {
+        if (isMountedRef.current) {
           if (w3Enabled) {
             dispatch({
               type: Types.ACCOUNTS_SET,

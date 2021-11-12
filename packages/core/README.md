@@ -80,14 +80,13 @@ If your app is using SSR (i.e. next.js) then you need to dynamically import Prov
 
 ```tsx
 import { ReactNode } from 'react';
-import { createSubstraHooksProvider } from '@substra-hooks/core';
+import { SubstraHooksProvider } from '@substra-hooks/core';
 
 interface ISubstraHooksProviderProps {
     apiProviderConfig: ApiProviderConfig;
     children: ReactNode;
 }
 
-const SubstraHooksProvider = createSubstraHooksProvider();
 
 const SubstraHooksProviderSSR = ({ apiProviderConfig, children }: ISubstraHooksProviderProps) => {
     return (

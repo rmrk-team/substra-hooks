@@ -50,36 +50,32 @@ const initAllApis = async (apiProviderConfig: ApiProviderConfig) => {
   return _apiProviders;
 };
 
-export const createSubstraHooksProvider = () => {
-  const SubstraHooksProvider = ({
-    children,
-    apiProviderConfig,
-    defaultApiProviderId,
-    autoInitialiseExtension,
-  }: ISubstraHooksProviderProps) => {
-    const [apiProviders, setApiProviders] = useState<ApiProviders>(_apiProviders);
-    const isMountedRef = useIsMountedRef();
+export const SubstraHooksProvider = ({
+  children,
+  apiProviderConfig,
+  defaultApiProviderId,
+  autoInitialiseExtension,
+}: ISubstraHooksProviderProps) => {
+  const [apiProviders, setApiProviders] = useState<ApiProviders>({});
+  const isMountedRef = useIsMountedRef();
 
-    useEffect(() => {
-      if (apiProviderConfig) {
-        initAllApis(apiProviderConfig).then((apiProviders) => {
-          if (isMountedRef.current) {
-            setApiProviders(apiProviders);
-          }
-        });
-      }
-    }, [JSON.stringify(apiProviderConfig), isMountedRef]);
+  useEffect(() => {
+    if (apiProviderConfig) {
+      initAllApis(apiProviderConfig).then((apiProviders) => {
+        if (isMountedRef.current) {
+          setApiProviders(apiProviders);
+        }
+      });
+    }
+  }, [JSON.stringify(apiProviderConfig), isMountedRef]);
 
-    return (
-      <SubstraHooksContext.Provider value={{ apiProviders, defaultApiProviderId }}>
-        <ExtensionProvider autoInitialiseExtension={autoInitialiseExtension}>
-          {children}
-        </ExtensionProvider>
-      </SubstraHooksContext.Provider>
-    );
-  };
-
-  return SubstraHooksProvider;
+  return (
+    <SubstraHooksContext.Provider value={{ apiProviders, defaultApiProviderId }}>
+      <ExtensionProvider autoInitialiseExtension={autoInitialiseExtension}>
+        {children}
+      </ExtensionProvider>
+    </SubstraHooksContext.Provider>
+  );
 };
 
-export const SubstraHooksProvider = createSubstraHooksProvider();
+

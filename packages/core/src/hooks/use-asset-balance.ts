@@ -21,7 +21,7 @@ export const useAssetBalance = (
   useEffect(() => {
     if (account && apiProvider && assetId) {
       const callback = ({ balanceFormatted, balanceRaw }: BalanceReturnType) => {
-        if (isMountedRef) {
+        if (isMountedRef.current) {
           setBalance({ balanceFormatted, balanceRaw });
         }
       };

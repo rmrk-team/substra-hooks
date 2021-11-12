@@ -38,7 +38,7 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
   useEffect(() => {
     if (ready && systemProperties && !w3Enabled) {
       checkEnabled(extensionName, systemProperties).then(({ accounts, w3Enabled }) => {
-        if (isMountedRef) {
+        if (isMountedRef.current) {
           if (w3Enabled) {
             dispatch({
               type: Types.ACCOUNTS_SET,
