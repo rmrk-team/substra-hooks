@@ -4,10 +4,14 @@ import { ApiProviders, SubstraHooksContext } from './context';
 import { fetchSystemProperties } from '../../helpers/fetch-system-properties';
 import { ExtensionProvider } from '../extension';
 import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
+import { RegistryTypes } from '@polkadot/types/types';
 
 const apiProviders: ApiProviders = {};
 
-export type ApiProviderConfig = Record<string, { id: string; wsProviderUrl: string }>;
+export type ApiProviderConfig = Record<
+  string,
+  { id: string; wsProviderUrl: string; types?: RegistryTypes }
+>;
 
 interface ISubstraHooksProviderProps {
   apiProviderConfig: ApiProviderConfig | null;
@@ -16,10 +20,14 @@ interface ISubstraHooksProviderProps {
   children: ReactNode;
 }
 
-export const initPolkadotPromise = async (id: string, wsProviderUrl: string) => {
+export const initPolkadotPromise = async (
+  id: string,
+  wsProviderUrl: string,
+  types?: RegistryTypes,
+) => {
   if (apiProviders[id]) return apiProviders[id];
   const wsProvider = new WsProvider(wsProviderUrl);
-  const polkadotApi = await ApiPromise.create({ provider: wsProvider });
+  const polkadotApi = await ApiPromise.create({ provider: wsProvider, types: types });
   await polkadotApi.isReady;
   const systemProperties = await fetchSystemProperties(polkadotApi);
   apiProviders[id] = {
@@ -35,6 +43,7 @@ const initAllApis = async (apiProviderConfig: ApiProviderConfig) => {
       initPolkadotPromise(
         apiProviderConfig[configId].id,
         apiProviderConfig[configId].wsProviderUrl,
+        apiProviderConfig[configId].types,
       ),
     ),
   );
