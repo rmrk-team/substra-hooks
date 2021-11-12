@@ -15,14 +15,12 @@ export const useAccountBalance = (account: string): BalanceReturnType | null => 
 
   useEffect(() => {
     if (account && apiProvider && systemProperties) {
-      if (account && apiProvider && systemProperties) {
-        const callback = ({ balanceFormatted, balanceRaw }: BalanceReturnType) => {
-          if (isMountedRef) {
-            setBalance({ balanceFormatted, balanceRaw });
-          }
-        };
-        getAccountBalance(account, systemProperties, apiProvider, callback);
-      }
+      const callback = ({ balanceFormatted, balanceRaw }: BalanceReturnType) => {
+        if (isMountedRef) {
+          setBalance({ balanceFormatted, balanceRaw });
+        }
+      };
+      getAccountBalance(account, systemProperties, apiProvider, callback);
     }
   }, [account, apiProvider, systemProperties, isMountedRef]);
 

@@ -6,7 +6,7 @@ import { ExtensionProvider } from '../extension';
 import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 import { RegistryTypes } from '@polkadot/types/types';
 
-const apiProviders: ApiProviders = {};
+const _apiProviders: ApiProviders = {};
 
 export type ApiProviderConfig = Record<
   string,
@@ -25,20 +25,20 @@ export const initPolkadotPromise = async (
   wsProviderUrl: string,
   types?: RegistryTypes,
 ) => {
-  if (apiProviders[id]) return apiProviders[id];
+  if (_apiProviders[id]) return _apiProviders[id];
   const wsProvider = new WsProvider(wsProviderUrl);
   const polkadotApi = await ApiPromise.create({ provider: wsProvider, types: types });
   await polkadotApi.isReady;
   const systemProperties = await fetchSystemProperties(polkadotApi);
-  apiProviders[id] = {
+  _apiProviders[id] = {
     systemProperties,
     apiProvider: polkadotApi,
   };
-  return apiProviders[id];
+  return _apiProviders[id];
 };
 
 const initAllApis = async (apiProviderConfig: ApiProviderConfig) => {
-  return Promise.all(
+  await Promise.all(
     Object.keys(apiProviderConfig).map(async (configId) =>
       initPolkadotPromise(
         apiProviderConfig[configId].id,
@@ -47,6 +47,7 @@ const initAllApis = async (apiProviderConfig: ApiProviderConfig) => {
       ),
     ),
   );
+  return _apiProviders;
 };
 
 export const createSubstraHooksProvider = () => {
@@ -56,18 +57,18 @@ export const createSubstraHooksProvider = () => {
     defaultApiProviderId,
     autoInitialiseExtension,
   }: ISubstraHooksProviderProps) => {
+    const [apiProviders, setApiProviders] = useState<ApiProviders>(_apiProviders);
     const isMountedRef = useIsMountedRef();
-    const [apiInitialised, setApiInitialised] = useState(false);
 
     useEffect(() => {
-      if (apiProviderConfig && !apiInitialised) {
-        initAllApis(apiProviderConfig).then((_apiProviders) => {
-          if (isMountedRef) {
-            setApiInitialised(true);
+      if (apiProviderConfig) {
+        initAllApis(apiProviderConfig).then((apiProviders) => {
+          if (isMountedRef.current) {
+            setApiProviders(apiProviders);
           }
         });
       }
-    }, [JSON.stringify(apiProviderConfig), apiInitialised, isMountedRef]);
+    }, [JSON.stringify(apiProviderConfig), isMountedRef]);
 
     return (
       <SubstraHooksContext.Provider value={{ apiProviders, defaultApiProviderId }}>

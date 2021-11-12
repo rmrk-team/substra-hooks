@@ -8,5 +8,6 @@ export const useIsMountedRef = () => {
       isMountedRef.current = false;
     };
   }, []);
-  return isMountedRef.current;
+
+  return isMountedRef;
 };
