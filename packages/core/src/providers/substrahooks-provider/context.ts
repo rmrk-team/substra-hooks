@@ -9,10 +9,12 @@ export type ApiProviders = Record<string, ApiProvider>;
 
 export interface BalancesState {
   balances: Record<string, BalanceReturnType>;
+  assets: Record<string, Record<string, BalanceReturnType>>;
 }
 
 export const initialBalancesState: BalancesState = {
   balances: {},
+  assets: {}
 };
 
 export const SubstraHooksContext = createContext<{

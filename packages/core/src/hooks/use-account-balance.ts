@@ -8,7 +8,7 @@ import { BalanceTypes } from '../providers/substrahooks-provider/reducer';
 
 export const useAccountBalance = (
   account: string,
-  providerId?: string,
+  apiProviderId?: string,
 ): BalanceReturnType | null => {
   const isMountedRef = useIsMountedRef();
   const defaultId = useContext(SubstraHooksContext).defaultApiProviderId;
@@ -16,7 +16,7 @@ export const useAccountBalance = (
   const systemProperties = useSystemProperties();
   const apiProvider = useApiProvider();
 
-  const networkId = providerId || defaultId;
+  const networkId = apiProviderId || defaultId;
 
   useEffect(() => {
     if (account && apiProvider && systemProperties) {

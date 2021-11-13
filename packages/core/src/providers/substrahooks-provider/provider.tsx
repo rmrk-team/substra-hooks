@@ -2,10 +2,9 @@ import React, { ReactNode, useEffect, useReducer, useState } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { ApiProviders, initialBalancesState, SubstraHooksContext } from './context';
 import { fetchSystemProperties } from '../../helpers/fetch-system-properties';
-import { ExtensionProvider, initialState } from '../extension';
+import { ExtensionProvider } from '../extension';
 import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 import { RegistryTypes } from '@polkadot/types/types';
-import { extensionReducer } from '../extension/reducer';
 import { balancesReducer } from './reducer';
 
 const _apiProviders: ApiProviders = {};

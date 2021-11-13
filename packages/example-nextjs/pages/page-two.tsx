@@ -34,7 +34,7 @@ const PageTwo: NextPage = () => {
 
             <main className={styles.main}>
                 <div>Balance: {balancePayload?.balanceFormatted}</div>
-
+                <div>Asset balance: {assetPayload?.balanceFormatted}</div>
                 <Link href={'/'}>Home page</Link>
 
             </main>

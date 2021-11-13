@@ -5,12 +5,18 @@ import { BalancesState } from './context';
 
 export enum BalanceTypes {
   SET_BALANCE = 'SET_BALANCE',
+  SET_ASSET = 'SET_ASSET',
 }
 
 type BalancesPayload = {
   [BalanceTypes.SET_BALANCE]: {
     balance: BalanceReturnType;
     network: string;
+  };
+  [BalanceTypes.SET_ASSET]: {
+    balance: BalanceReturnType;
+    network: string;
+    assetId: number;
   };
 };
 
@@ -21,6 +27,15 @@ export const balancesReducer = (state: BalancesState, action: BalancesActions) =
     case BalanceTypes.SET_BALANCE:
       return merge(state, {
         balances: merge(state.balances, { [action.payload.network]: action.payload.balance }),
+      });
+
+    case BalanceTypes.SET_ASSET:
+      return merge(state, {
+        assets: merge(state.assets, {
+          [action.payload.network]: merge(state.assets[action.payload.network] || {}, {
+            [action.payload.assetId]: action.payload.balance,
+          }),
+        }),
       });
 
     default:
