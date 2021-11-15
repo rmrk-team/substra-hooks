@@ -1,6 +1,6 @@
 # SubstraHooks Core
 
-SubstraHooks is a collection of useful react hooks that work with substrate blockchains
+SubstraHooks is a collection of useful react hooks that work with polkadot.js on substrate blockchains
 
 inspired by [useDApp](https://github.com/EthWorks/useDApp)
 
