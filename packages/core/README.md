@@ -1,6 +1,6 @@
 # SubstraHooks Core
 
-SubstraHooks is a collection of useful react hooks that work with polkadot.js on substrate blockchains
+SubstraHooks is a collection of useful react hooks that work with polkadot.js on [Substrate](https://substrate.io/) blockchains
 
 inspired by [useDApp](https://github.com/EthWorks/useDApp)
 
@@ -9,7 +9,7 @@ inspired by [useDApp](https://github.com/EthWorks/useDApp)
 Add it to your project:
 
 ```console
-yarn add @substra-hooks/core
+yarn add @substra-hooks/core @polkadot/api @polkadot/extension-dapp
 ```
 
 Use it in your React app:
@@ -197,5 +197,3 @@ useEffect(() => {
 console.log(accounts);
 
 ```
-
-
