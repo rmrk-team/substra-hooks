@@ -30,7 +30,7 @@ const apiProviderConfig = {
     },
     [NETWORKS.statemine]: {
         id: NETWORKS.statemine,
-        wsProviderUrl: 'wss://kusama-statemine-rpc.paritytech.net',
+        wsProviderUrl: 'wss://statemine-rpc.polkadot.io',
     },
 }
 

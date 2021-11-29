@@ -1,7 +1,10 @@
 import React, { ReactNode, useEffect, useReducer, useState } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { ApiProviders, initialBalancesState, SubstraHooksContext } from './context';
-import { fetchSystemProperties } from '../../helpers/fetch-system-properties';
+import {
+  fetchSystemProperties,
+  systemPropertiesDefaults,
+} from '../../helpers/fetch-system-properties';
 import { ExtensionProvider } from '../extension';
 import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 import { RegistryTypes } from '@polkadot/types/types';
@@ -27,10 +30,21 @@ export const initPolkadotPromise = async (
   types?: RegistryTypes,
 ) => {
   if (_apiProviders[id]) return _apiProviders[id];
-  const wsProvider = new WsProvider(wsProviderUrl);
-  const polkadotApi = await ApiPromise.create({ provider: wsProvider, types: types });
-  await polkadotApi.isReady;
-  const systemProperties = await fetchSystemProperties(polkadotApi);
+  let polkadotApi = null;
+  let systemProperties = systemPropertiesDefaults;
+  try {
+    const wsProvider = new WsProvider(wsProviderUrl);
+    polkadotApi = await ApiPromise.create({ provider: wsProvider, types: types, throwOnConnect: true });
+    await polkadotApi.isReady;
+    systemProperties = await fetchSystemProperties(polkadotApi);
+    _apiProviders[id] = {
+      systemProperties,
+      apiProvider: polkadotApi,
+    };
+  } catch (error: any) {
+    console.warn(`RPC ${wsProviderUrl} has failed with an error`, error);
+  }
+
   _apiProviders[id] = {
     systemProperties,
     apiProvider: polkadotApi,

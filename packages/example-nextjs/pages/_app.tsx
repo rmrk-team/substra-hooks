@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         },
         statemine: {
           id: 'statemine',
-          wsProviderUrl: 'wss://kusama-statemine-rpc.paritytech.net',
+          wsProviderUrl: 'wss://statemine-rpc.polkadot.io',
         },
       }}>
       <Component {...pageProps} />
