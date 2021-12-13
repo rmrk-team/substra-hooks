@@ -13,8 +13,8 @@ export const getAccountBalance = (
   api: ApiPromise,
   callback: (balance: BalanceReturnType) => void,
 ) => {
-  api.query.system.account(account, ({ data: { free: currentFree } }) => {
-    const balanceRaw = currentFree.toBigInt();
+  api.query.system.account(account, ({ data: { free: currentFree, feeFrozen: currentLocked } }) => {
+    const balanceRaw = currentFree.toBigInt() - currentLocked.toBigInt();
     const balanceFormatted = formatPrice(balanceRaw, systemProperties, true);
     if (callback) {
       callback({ balanceFormatted, balanceRaw });
