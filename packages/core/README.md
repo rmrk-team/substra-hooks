@@ -49,7 +49,7 @@ import { useAccountBalance, useSystemProperties, useAssetBalance } from '@substr
 
 const App = () => {
     const { accounts, w3enable, w3Enabled } = usePolkadotExtension();
-    const { balanceFormatted } = useAccountBalance(accounts?.[0]?.address || '');
+    const balancePayload = useAccountBalance(accounts?.[0]?.address || '');
     const assetPayload = useAssetBalance(accounts?.[0]?.address || '', 8, NETWORKS.statemine);
     const systemProperties = useSystemProperties()
 
@@ -67,10 +67,10 @@ const App = () => {
 
     return (
         <>
-          <h1>Balance</h1>
-          {balanceFormatted && (
-              <div>{balanceFormatted}</div>
-          )}
+          <div>Balance: {balancePayload?.balance.formatted}</div>
+          <div>Locked Balance: {balancePayload && balancePayload?.locked?.formatted}</div>
+          <div>Reserved Balance: {balancePayload?.reserved?.formatted}</div>
+          <div>Total Balance: {balancePayload?.total?.formatted}</div>
         </>
     )
 }
