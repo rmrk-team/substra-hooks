@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import {
   useAccountBalance,
@@ -9,12 +8,18 @@ import {
   useSystemProperties,
 } from '@substra-hooks/core';
 import { useEffect } from 'react';
-import Link from 'next/link'
+import Link from 'next/link';
 
 const Home: NextPage = () => {
   const { accounts, w3enable, w3Enabled } = usePolkadotExtension();
-  const balancePayload = useAccountBalance(accounts?.[5]?.address || '');
-  const assetPayload = useAssetBalance(accounts?.[5]?.address || '', 8, 'statemine');
+  const balancePayload = useAccountBalance(
+    accounts?.[5]?.address || 'D6HSL6nGXHLYWSN8jiL9MSNixH2F2o382KkHsZAtfZvBnxM',
+  );
+  const assetPayload = useAssetBalance(
+    accounts?.[5]?.address || 'D6HSL6nGXHLYWSN8jiL9MSNixH2F2o382KkHsZAtfZvBnxM',
+    8,
+    'statemine',
+  );
   const systemProperties = useSystemProperties();
 
   console.log('systemProperties', systemProperties);
@@ -27,8 +32,7 @@ const Home: NextPage = () => {
 
   console.log('accounts', accounts);
 
-  console.log('balancePayload', accounts?.[5]?.address || '', balancePayload);
-  console.log('assetPayload', assetPayload);
+  console.log('balancePayload', balancePayload);
 
   return (
     <div className={styles.container}>
@@ -38,14 +42,18 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
       <main className={styles.main}>
-        <div>Balance: {balancePayload?.balanceFormatted}</div>
-        <div>Asset balance: {assetPayload?.balanceFormatted}</div>
+        <div>Balance: {balancePayload?.balance.formatted}</div>
+        <div>Locked Balance: {balancePayload && balancePayload?.locked?.formatted}</div>
+        <div>Reserved Balance: {balancePayload?.reserved?.formatted}</div>
+        <div>Total Balance: {balancePayload?.total?.formatted}</div>
+
+        <br />
+        <div>Asset balance: {assetPayload?.balance.formatted}</div>
+
+        <br />
         <Link href={'/page-two'}>Page two</Link>
       </main>
-
-
     </div>
   );
 };
