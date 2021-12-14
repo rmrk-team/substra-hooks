@@ -20,24 +20,17 @@ export const useAccountBalance = (
 
   useEffect(() => {
     if (account && apiProvider && systemProperties) {
-      const callback = ({
-        balanceFormatted,
-        balanceRaw,
-        balanceLockedFormatted,
-        balanceReservedFormatted,
-        balanceTotalFormatted,
-      }: BalanceReturnType) => {
+      const callback = ({ balance, locked, reserved, total }: BalanceReturnType) => {
         if (isMountedRef.current) {
           balancesDispatch({
             type: BalanceTypes.SET_BALANCE,
             payload: {
               network: networkId,
               balance: {
-                balanceFormatted,
-                balanceRaw,
-                balanceLockedFormatted,
-                balanceReservedFormatted,
-                balanceTotalFormatted,
+                balance,
+                locked,
+                reserved,
+                total,
               },
             },
           });

@@ -22,11 +22,11 @@ export const useAssetBalance = (
 
   useEffect(() => {
     if (account && apiProvider && assetId) {
-      const callback = ({ balanceFormatted, balanceRaw }: BalanceReturnType) => {
+      const callback = ({ balance }: BalanceReturnType) => {
         if (isMountedRef.current) {
           balancesDispatch({
             type: BalanceTypes.SET_ASSET,
-            payload: { network: networkId, balance: { balanceFormatted, balanceRaw }, assetId },
+            payload: { network: networkId, balance: { balance }, assetId },
           });
         }
       };

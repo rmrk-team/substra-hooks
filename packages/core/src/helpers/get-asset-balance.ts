@@ -3,7 +3,7 @@ import { ApiPromise } from '@polkadot/api';
 import { formatPrice } from './format-price';
 import { fetchSystemProperties } from './fetch-system-properties';
 import { BalanceReturnType } from './get-account-balance';
-import {hexToString} from "@polkadot/util";
+import { hexToString } from '@polkadot/util';
 
 export const getAssetBalance = async (
   account: string,
@@ -25,7 +25,13 @@ export const getAssetBalance = async (
           { tokenDecimals, tokenSymbol, ss58Format: _systemProperties.ss58Format },
           true,
         );
-        callback({ balanceFormatted, balanceRaw });
+
+        const balance = {
+          raw: balanceRaw,
+          formatted: balanceFormatted,
+        };
+
+        callback({ balance });
       });
     }
   });

@@ -32,7 +32,7 @@ const Home: NextPage = () => {
 
   console.log('accounts', accounts);
 
-  console.log('assetPayload', assetPayload);
+  console.log('balancePayload', balancePayload);
 
   return (
     <div className={styles.container}>
@@ -43,13 +43,13 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <div>Balance: {balancePayload?.balanceFormatted}</div>
-        <div>Locked Balance: {balancePayload?.balanceLockedFormatted}</div>
-        <div>Reserved Balance: {balancePayload?.balanceReservedFormatted}</div>
-        <div>Total Balance: {balancePayload?.balanceTotalFormatted}</div>
+        <div>Balance: {balancePayload?.balance.formatted}</div>
+        <div>Locked Balance: {balancePayload && balancePayload?.locked?.formatted}</div>
+        <div>Reserved Balance: {balancePayload?.reserved?.formatted}</div>
+        <div>Total Balance: {balancePayload?.total?.formatted}</div>
 
         <br />
-        <div>Asset balance: {assetPayload?.balanceFormatted}</div>
+        <div>Asset balance: {assetPayload?.balance.formatted}</div>
 
         <br />
         <Link href={'/page-two'}>Page two</Link>
