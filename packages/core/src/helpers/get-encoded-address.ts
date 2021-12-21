@@ -6,5 +6,11 @@ export const getEncodedAddress = (
   systemProperties: ISystemProperties,
   ss58Format?: number,
 ) => {
-  return encodeAddress(address, ss58Format || systemProperties.ss58Format);
+  try {
+    return encodeAddress(address, ss58Format || systemProperties.ss58Format);
+  } catch (error: any) {
+    console.log(error);
+    return address;
+  }
+
 };
