@@ -47,6 +47,7 @@ const Home: NextPage = () => {
         <div>Locked Balance: {balancePayload && balancePayload?.locked?.formatted}</div>
         <div>Reserved Balance: {balancePayload?.reserved?.formatted}</div>
         <div>Total Balance: {balancePayload?.total?.formatted}</div>
+        <div>Available Balance: {balancePayload?.available?.formatted}</div>
 
         <br />
         <div>Asset balance: {assetPayload?.balance.formatted}</div>

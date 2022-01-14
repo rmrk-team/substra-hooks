@@ -12,55 +12,59 @@ export interface BalanceReturnType {
   locked?: BalanceDataType;
   reserved?: BalanceDataType;
   total?: BalanceDataType;
+  available?: BalanceDataType;
 }
 
-export const getAccountBalance = (
+export const getAccountBalance = async (
   account: string,
   systemProperties: ISystemProperties,
   api: ApiPromise,
-  callback: (balance: BalanceReturnType) => void,
-) => {
-  api.query.system.account(
-    account,
-    ({ data: { free: currentFree, feeFrozen: currentLocked, reserved: currentReserved } }) => {
-      const balanceRaw = currentFree.toBigInt();
-      const balanceLockedRaw = currentLocked.toBigInt();
-      const balanceReservedRaw = currentReserved.toBigInt();
-      const balanceTotalRaw = balanceRaw + balanceReservedRaw;
+): Promise<BalanceReturnType> => {
+  const {
+    data: { free: currentFree, feeFrozen: currentLocked, reserved: currentReserved },
+  } = await api.query.system.account(account);
+  const { availableBalance } = await api.derive.balances.all(account);
 
-      const balanceFormatted = formatPrice(balanceRaw, systemProperties, true);
-      const balanceLockedFormatted = formatPrice(balanceLockedRaw, systemProperties, true);
-      const balanceReservedFormatted = formatPrice(balanceReservedRaw, systemProperties, true);
-      const balanceTotalFormatted = formatPrice(balanceTotalRaw, systemProperties, true);
+  const balanceRaw = currentFree.toBigInt();
+  const balanceLockedRaw = currentLocked.toBigInt();
+  const balanceReservedRaw = currentReserved.toBigInt();
+  const balanceTotalRaw = balanceRaw + balanceReservedRaw;
 
-      const balance = {
-        raw: balanceRaw,
-        formatted: balanceFormatted,
-      };
+  const balanceFormatted = formatPrice(balanceRaw, systemProperties, true);
+  const balanceLockedFormatted = formatPrice(balanceLockedRaw, systemProperties, true);
+  const balanceReservedFormatted = formatPrice(balanceReservedRaw, systemProperties, true);
+  const balanceTotalFormatted = formatPrice(balanceTotalRaw, systemProperties, true);
 
-      const locked = {
-        raw: balanceLockedRaw,
-        formatted: balanceLockedFormatted,
-      };
+  const balance = {
+    raw: balanceRaw,
+    formatted: balanceFormatted,
+  };
 
-      const reserved = {
-        raw: balanceReservedRaw,
-        formatted: balanceReservedFormatted,
-      };
+  const locked = {
+    raw: balanceLockedRaw,
+    formatted: balanceLockedFormatted,
+  };
 
-      const total = {
-        raw: balanceTotalRaw,
-        formatted: balanceTotalFormatted,
-      };
+  const reserved = {
+    raw: balanceReservedRaw,
+    formatted: balanceReservedFormatted,
+  };
 
-      if (callback) {
-        callback({
-          balance,
-          locked,
-          reserved,
-          total,
-        });
-      }
-    },
-  );
+  const total = {
+    raw: balanceTotalRaw,
+    formatted: balanceTotalFormatted,
+  };
+
+  const available = {
+    raw: availableBalance.toBigInt(),
+    formatted: formatPrice(availableBalance.toBigInt(), systemProperties, true),
+  };
+
+  return {
+    balance,
+    locked,
+    reserved,
+    total,
+    available,
+  };
 };
