@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useSystemProperties } from './use-system-properties';
 import { useIsMountedRef } from '../helpers/use-is-mounted-ref';
 import { BalanceReturnType } from '../helpers/get-account-balance';
@@ -22,7 +22,8 @@ export const useAssetBalance = (
 
   useEffect(() => {
     if (account && apiProvider && assetId) {
-      const callback = ({ balance }: BalanceReturnType) => {
+      const getBalancesAsync = async () => {
+        const { balance } = await getAssetBalance(account, assetId, apiProvider, systemProperties);
         if (isMountedRef.current) {
           balancesDispatch({
             type: BalanceTypes.SET_ASSET,
@@ -30,7 +31,8 @@ export const useAssetBalance = (
           });
         }
       };
-      getAssetBalance(account, assetId, apiProvider, callback, systemProperties);
+
+      getBalancesAsync();
     }
   }, [account, assetId, apiProvider, systemProperties, isMountedRef]);
 

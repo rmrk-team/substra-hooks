@@ -9,7 +9,6 @@ export const getAssetBalance = async (
   account: string,
   assetId: number,
   api: ApiPromise,
-  callback: (balance: BalanceReturnType) => void,
   systemProperties: ISystemProperties | null,
 ): Promise<BalanceReturnType> => {
   const _systemProperties = systemProperties || (await fetchSystemProperties(api));
