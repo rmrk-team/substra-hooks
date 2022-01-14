@@ -20,21 +20,24 @@ export const useAccountBalance = (
 
   useEffect(() => {
     if (account && apiProvider && systemProperties) {
-
-      const getBalancesAsync = async () => {
-        const balances = await getAccountBalance(account, systemProperties, apiProvider);
+      const callback = ({ balance, locked, reserved, total, available }: BalanceReturnType) => {
         if (isMountedRef.current) {
           balancesDispatch({
             type: BalanceTypes.SET_BALANCE,
             payload: {
               network: networkId,
-              balance: balances,
+              balance: {
+                balance,
+                locked,
+                reserved,
+                total,
+                available
+              },
             },
           });
         }
-      }
-
-      getBalancesAsync();
+      };
+      getAccountBalance(account, systemProperties, apiProvider, callback);
     }
   }, [account, apiProvider, systemProperties, isMountedRef]);
 

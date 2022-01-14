@@ -9,36 +9,30 @@ export const getAssetBalance = async (
   account: string,
   assetId: number,
   api: ApiPromise,
+  callback: (balance: BalanceReturnType) => void,
   systemProperties: ISystemProperties | null,
-): Promise<BalanceReturnType> => {
+) => {
   const _systemProperties = systemProperties || (await fetchSystemProperties(api));
   const getAsset = api.query.assets;
-  const accountData = await getAsset.account(assetId, account);
-  if (accountData) {
-    const data = await getAsset.metadata(assetId);
-    const balanceRaw = accountData.balance.toBigInt();
-    const tokenDecimals = data.decimals.toNumber();
-    const tokenSymbol = hexToString(data.symbol.toHex());
-    const balanceFormatted = formatPrice(
-      balanceRaw,
-      { tokenDecimals, tokenSymbol, ss58Format: _systemProperties.ss58Format },
-      true,
-    );
+  getAsset.account(assetId, account).then((accountData) => {
+    if (accountData) {
+      getAsset.metadata(assetId).then((data) => {
+        const balanceRaw = accountData.balance.toBigInt();
+        const tokenDecimals = data.decimals.toNumber();
+        const tokenSymbol = hexToString(data.symbol.toHex());
+        const balanceFormatted = formatPrice(
+          balanceRaw,
+          { tokenDecimals, tokenSymbol, ss58Format: _systemProperties.ss58Format },
+          true,
+        );
 
-    const balance = {
-      raw: balanceRaw,
-      formatted: balanceFormatted,
-    };
+        const balance = {
+          raw: balanceRaw,
+          formatted: balanceFormatted,
+        };
 
-    return {
-      balance,
-    };
-  } else {
-    return {
-      balance: {
-        raw: BigInt(0),
-        formatted: '0',
-      },
-    };
-  }
+        callback({ balance });
+      });
+    }
+  });
 };
