@@ -1836,6 +1836,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@substra-hooks/core@latest":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@substra-hooks/core/-/core-0.0.34.tgz#1462de7cd1157afa43d896dd79d1c9b96909209f"
+  integrity sha512-11EM4YrVNbZBGTePoWI1T/SFxblDZ9emc2xZBzP/qdCZzid6ezQM3vP7916LZkpLIUfoSms+73tWTYTjKdd6lQ==
+  dependencies:
+    "@types/react" "17.0.34"
+    nanoid "3.1.30"
+    ramda "^0.27.1"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

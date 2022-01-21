@@ -1,7 +1,11 @@
 import { merge } from 'ramda';
-import { BalanceReturnType } from '../../helpers';
-import { ActionMap } from '../../types/reducer';
-import { BalancesState } from './context';
+import { BalanceReturnType } from '../helpers';
+import { ActionMap } from '../types/reducer';
+
+export interface BalancesState {
+  balances: Record<string, BalanceReturnType>;
+  assets: Record<string, Record<string, BalanceReturnType>>;
+}
 
 export enum BalanceTypes {
   SET_BALANCE = 'SET_BALANCE',
