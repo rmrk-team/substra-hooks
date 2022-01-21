@@ -4,13 +4,18 @@ import { ApiProviderConfig, SubstraHooksProvider } from '@substra-hooks/core';
 interface ISubstraHooksProviderProps {
   apiProviderConfig: ApiProviderConfig;
   children: ReactNode;
+  defaultApiProviderId?: string;
 }
 
-const SubstraHooksProviderSSR = ({ apiProviderConfig, children }: ISubstraHooksProviderProps) => {
+const SubstraHooksProviderSSR = ({
+  apiProviderConfig,
+  children,
+  defaultApiProviderId,
+}: ISubstraHooksProviderProps) => {
   return (
     <SubstraHooksProvider
       apiProviderConfig={apiProviderConfig}
-      defaultApiProviderId={'kusama'}
+      defaultApiProviderId={defaultApiProviderId || 'kusama'}
       autoInitialiseExtension>
       {children}
     </SubstraHooksProvider>

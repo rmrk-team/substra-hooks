@@ -5,7 +5,7 @@ import { BalanceReturnType } from '../helpers/get-account-balance';
 import { getAssetBalance } from '../helpers/get-asset-balance';
 import { useApiProvider } from './use-api-provider';
 import { SubstraHooksContext, useSubstraHooksState } from '../providers';
-import { BalanceTypes } from '../providers/substrahooks-provider/reducer';
+import { BalanceTypes } from '../state/balances';
 
 export const useAssetBalance = (
   account: string,

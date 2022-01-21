@@ -1,20 +1,23 @@
 import { createContext, Dispatch, useContext } from 'react';
-import { ApiPromise } from '@polkadot/api';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { ISystemProperties } from '../../types/system-properties';
-import { BalanceReturnType } from '../../helpers';
-import { BalancesActions } from './reducer';
+import { BalancesActions, BalancesState } from '../../state/balances';
+import { ErrorsActions, ErrorsState } from '../../state/errors';
 
-export type ApiProvider = { apiProvider: ApiPromise | null; systemProperties: ISystemProperties };
+export type ApiProvider = {
+  apiProvider: ApiPromise | null;
+  systemProperties: ISystemProperties;
+  wsProvider?: WsProvider;
+};
 export type ApiProviders = Record<string, ApiProvider>;
 
-export interface BalancesState {
-  balances: Record<string, BalanceReturnType>;
-  assets: Record<string, Record<string, BalanceReturnType>>;
-}
+export const initialErrorsState: ErrorsState = {
+  blockSyncErrors: {},
+};
 
 export const initialBalancesState: BalancesState = {
   balances: {},
-  assets: {}
+  assets: {},
 };
 
 export const SubstraHooksContext = createContext<{
@@ -22,9 +25,13 @@ export const SubstraHooksContext = createContext<{
   defaultApiProviderId: string;
   balancesState: BalancesState;
   balancesDispatch: Dispatch<BalancesActions>;
+  errorsState: ErrorsState;
+  errorsDispatch: Dispatch<ErrorsActions>;
 }>({
   apiProviders: {},
   defaultApiProviderId: '',
+  errorsState: initialErrorsState,
+  errorsDispatch: () => null,
   balancesState: initialBalancesState,
   balancesDispatch: () => null,
 });

@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useSystemProperties } from './use-system-properties';
 import { useIsMountedRef } from '../helpers/use-is-mounted-ref';
 import { BalanceReturnType, getAccountBalance } from '../helpers/get-account-balance';
 import { useApiProvider } from './use-api-provider';
 import { SubstraHooksContext, useSubstraHooksState } from '../providers';
-import { BalanceTypes } from '../providers/substrahooks-provider/reducer';
+import { BalanceTypes } from '../state/balances';
 
 export const useAccountBalance = (
   account: string,
@@ -31,7 +31,7 @@ export const useAccountBalance = (
                 locked,
                 reserved,
                 total,
-                available
+                available,
               },
             },
           });
