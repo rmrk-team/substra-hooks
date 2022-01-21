@@ -45,14 +45,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {blockSyncError && (
-        <div>
-          <div>Block sync error:</div>
-          <div>{JSON.stringify(blockSyncError, null, 2)}</div>
-        </div>
-      )}
-
       <main className={styles.main}>
+        {blockSyncError && (
+          <div style={{ color: 'red' }}>
+            <div>Block sync error:</div>
+            <div>{JSON.stringify(blockSyncError, null, 2)}</div>
+            <br />
+          </div>
+        )}
         <div>Balance: {balancePayload?.balance.formatted}</div>
         <div>Locked Balance: {balancePayload && balancePayload?.locked?.formatted}</div>
         <div>Reserved Balance: {balancePayload?.reserved?.formatted}</div>

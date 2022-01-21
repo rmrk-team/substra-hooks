@@ -54,6 +54,7 @@ export const initPolkadotPromise = async (
   }
 
   _apiProviders[id] = {
+    ..._apiProviders[id],
     systemProperties,
     apiProvider: polkadotApi,
   };
@@ -101,7 +102,17 @@ export const SubstraHooksProvider = ({
               },
             });
           };
+          const connectedHandler = () => {
+            errorsDispatch({
+              type: ErrorActionTypes.BLOCK_SYNC_ERROR,
+              payload: {
+                network: apiProviderId,
+                error: undefined,
+              },
+            });
+          };
           wsProvider?.on('error', errorHandler);
+          wsProvider?.on('connected', connectedHandler);
         });
       });
     }

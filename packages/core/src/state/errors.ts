@@ -24,7 +24,9 @@ export const errorsReducer = (state: ErrorsState, action: ErrorsActions) => {
   switch (action.type) {
     case ErrorActionTypes.BLOCK_SYNC_ERROR:
       return merge(state, {
-        balances: merge(state.blockSyncErrors, { [action.payload.network]: action.payload.error }),
+        blockSyncErrors: merge(state.blockSyncErrors, {
+          [action.payload.network]: action.payload.error,
+        }),
       });
 
     default:
