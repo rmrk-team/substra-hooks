@@ -1952,15 +1952,6 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@substra-hooks/core@^0.0.28":
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/@substra-hooks/core/-/core-0.0.28.tgz#51f0bf551cd6e09928b01115e2bc110da3fdeecf"
-  integrity sha512-6KU/r0axxFpe5qC/V7Oeg4EAfSCaHYhUK2WeZq8crTXSwmcqxFx+rEpUFkmFNkQ0mqI82Mqz0LP48kI0fkDVTw==
-  dependencies:
-    "@types/react" "17.0.34"
-    nanoid "3.1.30"
-    ramda "^0.27.1"
-
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

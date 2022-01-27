@@ -17,6 +17,7 @@ export const getAssetBalance = async (
   getAsset.account(assetId, account).then((accountData) => {
     if (accountData) {
       getAsset.metadata(assetId).then((data) => {
+        //@ts-ignore
         const balanceRaw = accountData.balance.toBigInt();
         const tokenDecimals = data.decimals.toNumber();
         const tokenSymbol = hexToString(data.symbol.toHex());
