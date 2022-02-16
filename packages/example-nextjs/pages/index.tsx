@@ -14,10 +14,11 @@ import Link from 'next/link';
 const Home: NextPage = () => {
   const { accounts, w3enable, w3Enabled } = usePolkadotExtension();
   const balancePayload = useAccountBalance(
-    accounts?.[5]?.address || 'D6HSL6nGXHLYWSN8jiL9MSNixH2F2o382KkHsZAtfZvBnxM',
+    'D6HSL6nGXHLYWSN8jiL9MSNixH2F2o382KkHsZAtfZvBnxM',
+    'statemine',
   );
   const assetPayload = useAssetBalance(
-    accounts?.[5]?.address || 'D6HSL6nGXHLYWSN8jiL9MSNixH2F2o382KkHsZAtfZvBnxM',
+    'F47FMwwMo4h9Xvu5NTFyk9wikSGhjpiuV9qRzPgG4m7sBe6',
     8,
     'statemine',
   );
@@ -25,17 +26,19 @@ const Home: NextPage = () => {
 
   const blockSyncError = useBlockSyncError('development');
 
-  console.log('systemProperties', systemProperties);
+  // console.log('systemProperties', systemProperties);
 
   useEffect(() => {
     if (!w3Enabled) {
       w3enable();
     }
   }, [w3Enabled]);
+  //
+  // console.log('accounts', accounts);
+  //
+  // console.log('balancePayload', balancePayload);
 
-  console.log('accounts', accounts);
-
-  console.log('balancePayload', balancePayload);
+  // console.log('assetPayload', assetPayload);
 
   return (
     <div className={styles.container}>
