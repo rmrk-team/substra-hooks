@@ -12,16 +12,9 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 
 const Home: NextPage = () => {
-  const { accounts, w3enable, w3Enabled } = usePolkadotExtension();
-  const balancePayload = useAccountBalance(
-    'D6HSL6nGXHLYWSN8jiL9MSNixH2F2o382KkHsZAtfZvBnxM',
-    'statemine',
-  );
-  const assetPayload = useAssetBalance(
-    'F47FMwwMo4h9Xvu5NTFyk9wikSGhjpiuV9qRzPgG4m7sBe6',
-    8,
-    'statemine',
-  );
+  const { accounts, w3enable, w3Enabled, initialised } = usePolkadotExtension();
+  const balancePayload = useAccountBalance(accounts?.[0]?.address as string);
+  const assetPayload = useAssetBalance(accounts?.[0]?.address as string, 8, 'statemine');
   const systemProperties = useSystemProperties();
 
   const blockSyncError = useBlockSyncError('development');
@@ -32,7 +25,10 @@ const Home: NextPage = () => {
     if (!w3Enabled) {
       w3enable();
     }
-  }, [w3Enabled]);
+    if (initialised && !w3Enabled) {
+      console.log('polkadot.js is disabled');
+    }
+  }, [w3Enabled, initialised]);
   //
   // console.log('accounts', accounts);
   //

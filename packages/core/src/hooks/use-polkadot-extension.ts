@@ -7,6 +7,7 @@ import { useIsMountedRef } from '../helpers/use-is-mounted-ref';
 
 interface UsePolkadotExtensionReturnType extends ExtensionState {
   w3enable: () => void;
+  initialised: boolean;
 }
 
 export const checkEnabled = async (
@@ -24,14 +25,13 @@ export const checkEnabled = async (
   if (w3Enabled) {
     accounts = await web3Accounts({ ss58Format: systemProperties.ss58Format });
   }
-
   return { accounts, w3Enabled };
 };
 
 export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
   const isMountedRef = useIsMountedRef();
   const { state, dispatch, extensionName } = useExtensionState();
-  const { w3Enabled, accounts } = state;
+  const { w3Enabled, accounts, initialised } = state;
   const [ready, setReady] = useState(false);
   const systemProperties = useSystemProperties();
 
@@ -54,6 +54,13 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
               w3Enabled,
             },
           });
+
+          dispatch({
+            type: Types.INITIALIZE,
+            payload: {
+              initialised: true,
+            },
+          });
         }
       });
     }
@@ -63,5 +70,5 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
     setReady(true);
   };
 
-  return { accounts, w3enable, w3Enabled };
+  return { accounts, w3enable, w3Enabled, initialised };
 };

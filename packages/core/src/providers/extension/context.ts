@@ -5,11 +5,13 @@ import { ExtensionActions } from './reducer';
 export interface ExtensionState {
   w3Enabled: boolean;
   accounts: InjectedAccountWithMeta[] | null;
+  initialised: boolean;
 }
 
 export const initialState: ExtensionState = {
   w3Enabled: false,
   accounts: null,
+  initialised: false,
 };
 
 export const ExtensionContext = createContext<{
@@ -19,7 +21,7 @@ export const ExtensionContext = createContext<{
 }>({
   state: initialState,
   dispatch: () => null,
-  extensionName: 'polkadot-extension'
+  extensionName: 'polkadot-extension',
 });
 
 export function useExtensionState() {
