@@ -28,6 +28,7 @@ const Home: NextPage = () => {
     if (initialised && !w3Enabled) {
       console.log('polkadot.js is disabled');
     }
+    console.log('initialised', initialised);
   }, [w3Enabled, initialised]);
   //
   // console.log('accounts', accounts);

@@ -39,6 +39,13 @@ export const ExtensionProvider = ({
               w3Enabled,
             },
           });
+
+          dispatch({
+            type: Types.INITIALIZE,
+            payload: {
+              initialised: true,
+            },
+          });
         }
       });
     }
