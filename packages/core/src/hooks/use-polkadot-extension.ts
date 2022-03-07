@@ -4,15 +4,15 @@ import { useSystemProperties } from './use-system-properties';
 import { ISystemProperties } from '../types/system-properties';
 import { Types } from '../providers/extension/reducer';
 import { useIsMountedRef } from '../helpers/use-is-mounted-ref';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 
 interface UsePolkadotExtensionReturnType extends ExtensionState {
   w3enable: () => void;
   initialised: boolean;
 }
 
-export const checkEnabled = async (
+export const checkEnabled: (extensionName: string, systemProperties: ISystemProperties) => Promise<{ accounts: InjectedAccountWithMeta[] | null, w3Enabled: boolean }> = async (
   extensionName: string = 'polkadot-extension',
-
   systemProperties: ISystemProperties,
 ) => {
   const extensionDapp = await import('@polkadot/extension-dapp');
@@ -37,7 +37,7 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
 
   useEffect(() => {
     if (ready && systemProperties && !w3Enabled) {
-      checkEnabled(extensionName, systemProperties).then(({ accounts, w3Enabled }) => {
+      checkEnabled(extensionName || 'polkadot-extension', systemProperties).then(({ accounts, w3Enabled }) => {
         if (isMountedRef.current) {
           if (w3Enabled) {
             dispatch({

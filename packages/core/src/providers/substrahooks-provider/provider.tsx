@@ -5,13 +5,11 @@ import {
   fetchSystemProperties,
   systemPropertiesDefaults,
 } from '../../helpers/fetch-system-properties';
-import { ExtensionProvider } from '../extension';
 import { useIsMountedRef } from '../../helpers/use-is-mounted-ref';
 import { RegistryTypes } from '@polkadot/types/types';
-import { balancesReducer, BalanceTypes } from '../../state/balances';
+import { balancesReducer } from '../../state/balances';
 import { ErrorActionTypes, errorsReducer } from '../../state/errors';
 import { initialErrorsState } from '.';
-import { noop } from '../..';
 
 const _apiProviders: ApiProviders = {};
 
@@ -78,7 +76,6 @@ export const SubstraHooksProvider = ({
   children,
   apiProviderConfig,
   defaultApiProviderId,
-  autoInitialiseExtension,
 }: ISubstraHooksProviderProps) => {
   const [apiProviders, setApiProviders] = useState<ApiProviders>({});
   const [errorsState, errorsDispatch] = useReducer(errorsReducer, initialErrorsState);
@@ -128,9 +125,7 @@ export const SubstraHooksProvider = ({
         balancesState,
         balancesDispatch,
       }}>
-      <ExtensionProvider autoInitialiseExtension={autoInitialiseExtension}>
-        {children}
-      </ExtensionProvider>
+      {children}
     </SubstraHooksContext.Provider>
   );
 };

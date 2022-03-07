@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { ApiProviderConfig, SubstraHooksProvider } from '@substra-hooks/core';
+import React, { ReactNode } from 'react';
+import { ApiProviderConfig, SubstraHooksProvider, ExtensionProvider } from '@substra-hooks/core';
 
 interface ISubstraHooksProviderProps {
   apiProviderConfig: ApiProviderConfig;
@@ -17,7 +17,10 @@ const SubstraHooksProviderSSR = ({
       apiProviderConfig={apiProviderConfig}
       defaultApiProviderId={defaultApiProviderId || 'kusama'}
       autoInitialiseExtension>
-      {children}
+      <ExtensionProvider autoInitialiseExtension={false}>
+        {children}
+      </ExtensionProvider>
+
     </SubstraHooksProvider>
   );
 };

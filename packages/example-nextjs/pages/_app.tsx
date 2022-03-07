@@ -8,7 +8,7 @@ const SubstraHooksProviderSSR = dynamic(() => import('../components/app/substra-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SubstraHooksProviderSSR
-      defaultApiProviderId="development"
+      defaultApiProviderId="kusama"
       apiProviderConfig={{
         kusama: {
           id: 'kusama',
