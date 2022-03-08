@@ -1,6 +1,6 @@
 {
   "name": "@substra-hooks/core",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
@@ -27,7 +27,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.13.8",
     "@babel/preset-env": "^7.13.9",
     "@babel/preset-typescript": "^7.13.0",
-    "@polkadot/api": "^7.8.1",
+    "@polkadot/api": "^7.11.1",
     "@polkadot/extension-dapp": "^0.42.7",
     "@polkadot/keyring": "^8.4.1",
     "@polkadot/util": "^8.4.1",
