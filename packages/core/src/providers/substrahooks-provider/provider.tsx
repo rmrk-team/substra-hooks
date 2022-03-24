@@ -1,6 +1,12 @@
-import React, { ReactNode, useEffect, useReducer, useState } from 'react';
+import React, { ReactNode, useEffect, useReducer } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { ApiProviders, initialBalancesState, SubstraHooksContext } from './context';
+import {
+  ApiProviders,
+  initialBalancesState,
+  initialProvidersState,
+  ProvidersState,
+  SubstraHooksContext,
+} from './context';
 import {
   fetchSystemProperties,
   systemPropertiesDefaults,
@@ -10,8 +16,7 @@ import { RegistryTypes } from '@polkadot/types/types';
 import { balancesReducer } from '../../state/balances';
 import { ErrorActionTypes, errorsReducer } from '../../state/errors';
 import { initialErrorsState } from '.';
-
-const _apiProviders: ApiProviders = {};
+import { ProvidersActions, providersReducer, Types } from './reducer';
 
 export type ApiProviderConfig = Record<
   string,
@@ -28,9 +33,17 @@ interface ISubstraHooksProviderProps {
 export const initPolkadotPromise = async (
   id: string,
   wsProviderUrl: string,
+  apiProvidersState: ProvidersState,
+  apiProvidersStateDispatch: React.Dispatch<ProvidersActions>,
   types?: RegistryTypes,
 ) => {
-  if (_apiProviders[id]) return _apiProviders[id];
+  if (
+    apiProvidersState.apiProviders[id] &&
+    apiProvidersState.apiProviders[id]?.rpcEndpoint === wsProviderUrl
+  ) {
+    return apiProvidersState.apiProviders[id];
+  }
+
   let polkadotApi = null;
   let systemProperties = systemPropertiesDefaults;
   try {
@@ -42,34 +55,54 @@ export const initPolkadotPromise = async (
     });
     await polkadotApi.isReady;
     systemProperties = await fetchSystemProperties(polkadotApi);
-    _apiProviders[id] = {
-      systemProperties,
-      apiProvider: polkadotApi,
-      wsProvider,
-    };
+    apiProvidersStateDispatch({
+      type: Types.SET_PROVIDER,
+      payload: {
+        id,
+        provider: {
+          systemProperties,
+          apiProvider: polkadotApi,
+          wsProvider,
+          rpcEndpoint: wsProviderUrl,
+        },
+      },
+    });
   } catch (error: any) {
     console.warn(`RPC ${wsProviderUrl} has failed with an error`, error);
   }
 
-  _apiProviders[id] = {
-    ..._apiProviders[id],
-    systemProperties,
-    apiProvider: polkadotApi,
-  };
-  return _apiProviders[id];
+  apiProvidersStateDispatch({
+    type: Types.SET_PROVIDER,
+    payload: {
+      id,
+      provider: {
+        ...apiProvidersState.apiProviders[id],
+        systemProperties,
+        apiProvider: polkadotApi,
+        rpcEndpoint: wsProviderUrl,
+      },
+    },
+  });
+
+  return apiProvidersState.apiProviders[id];
 };
 
-const initAllApis = async (apiProviderConfig: ApiProviderConfig) => {
-  await Promise.all(
+const initAllApis = async (
+  apiProviderConfig: ApiProviderConfig,
+  apiProvidersState: ProvidersState,
+  apiProvidersStateDispatch: React.Dispatch<ProvidersActions>,
+) => {
+  return await Promise.all(
     Object.keys(apiProviderConfig).map(async (configId) =>
       initPolkadotPromise(
         apiProviderConfig[configId].id,
         apiProviderConfig[configId].wsProviderUrl,
+        apiProvidersState,
+        apiProvidersStateDispatch,
         apiProviderConfig[configId].types,
       ),
     ),
   );
-  return _apiProviders;
 };
 
 export const SubstraHooksProvider = ({
@@ -77,48 +110,56 @@ export const SubstraHooksProvider = ({
   apiProviderConfig,
   defaultApiProviderId,
 }: ISubstraHooksProviderProps) => {
-  const [apiProviders, setApiProviders] = useState<ApiProviders>({});
   const [errorsState, errorsDispatch] = useReducer(errorsReducer, initialErrorsState);
   const [balancesState, balancesDispatch] = useReducer(balancesReducer, initialBalancesState);
+  const [apiProvidersState, apiProvidersStateDispatch] = useReducer(
+    providersReducer,
+    initialProvidersState,
+  );
   const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
-    if (apiProviderConfig) {
-      initAllApis(apiProviderConfig).then((apiProviders) => {
-        if (isMountedRef.current) {
-          setApiProviders(apiProviders);
-        }
-        Object.keys(apiProviders).map((apiProviderId) => {
-          const wsProvider = apiProviders[apiProviderId].wsProvider;
-          const errorHandler = (error: Error | string) => {
-            errorsDispatch({
-              type: ErrorActionTypes.BLOCK_SYNC_ERROR,
-              payload: {
-                network: apiProviderId,
-                error: typeof error === 'string' ? new Error(error) : error,
-              },
-            });
-          };
-          const connectedHandler = () => {
-            errorsDispatch({
-              type: ErrorActionTypes.BLOCK_SYNC_ERROR,
-              payload: {
-                network: apiProviderId,
-                error: undefined,
-              },
-            });
-          };
-          wsProvider?.on('error', errorHandler);
-          wsProvider?.on('connected', connectedHandler);
-        });
-      });
+    if (apiProviderConfig && isMountedRef.current) {
+      const initApisPromise = async () => {
+        await initAllApis(apiProviderConfig, apiProvidersState, apiProvidersStateDispatch);
+      };
+
+      initApisPromise();
     }
   }, [JSON.stringify(apiProviderConfig), isMountedRef]);
+
+  useEffect(() => {
+    if (Object.keys(apiProvidersState.apiProviders).length > 0) {
+      Object.keys(apiProvidersState.apiProviders).map((apiProviderId) => {
+        const wsProvider = apiProvidersState.apiProviders[apiProviderId].wsProvider;
+        const errorHandler = (error: Error | string) => {
+          errorsDispatch({
+            type: ErrorActionTypes.BLOCK_SYNC_ERROR,
+            payload: {
+              network: apiProviderId,
+              error: typeof error === 'string' ? new Error(error) : error,
+            },
+          });
+        };
+        const connectedHandler = () => {
+          errorsDispatch({
+            type: ErrorActionTypes.BLOCK_SYNC_ERROR,
+            payload: {
+              network: apiProviderId,
+              error: undefined,
+            },
+          });
+        };
+        wsProvider?.on('error', errorHandler);
+        wsProvider?.on('connected', connectedHandler);
+      });
+    }
+  }, [JSON.stringify(apiProvidersState.apiProviders), isMountedRef]);
 
   return (
     <SubstraHooksContext.Provider
       value={{
-        apiProviders,
+        apiProvidersState,
         defaultApiProviderId,
         errorsState,
         errorsDispatch,

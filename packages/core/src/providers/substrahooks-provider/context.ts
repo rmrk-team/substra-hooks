@@ -4,12 +4,22 @@ import { ISystemProperties } from '../../types/system-properties';
 import { BalancesActions, BalancesState } from '../../state/balances';
 import { ErrorsActions, ErrorsState } from '../../state/errors';
 
+
 export type ApiProvider = {
   apiProvider: ApiPromise | null;
   systemProperties: ISystemProperties;
   wsProvider?: WsProvider;
+  rpcEndpoint?: string
 };
 export type ApiProviders = Record<string, ApiProvider>;
+
+export interface ProvidersState {
+  apiProviders: ApiProviders;
+}
+
+export const initialProvidersState: ProvidersState = {
+  apiProviders: {}
+};
 
 export const initialErrorsState: ErrorsState = {
   blockSyncErrors: {},
@@ -21,14 +31,14 @@ export const initialBalancesState: BalancesState = {
 };
 
 export const SubstraHooksContext = createContext<{
-  apiProviders: ApiProviders;
+  apiProvidersState: ProvidersState;
   defaultApiProviderId: string;
   balancesState: BalancesState;
   balancesDispatch: Dispatch<BalancesActions>;
   errorsState: ErrorsState;
   errorsDispatch: Dispatch<ErrorsActions>;
 }>({
-  apiProviders: {},
+  apiProvidersState: initialProvidersState,
   defaultApiProviderId: '',
   errorsState: initialErrorsState,
   errorsDispatch: () => null,
@@ -42,4 +52,8 @@ export const useSubstraHooksState = () => {
 
 export const useBalancesState = () => {
   return useContext(SubstraHooksContext).balancesState;
+};
+
+export const useApiProvidersState = () => {
+  return useContext(SubstraHooksContext).apiProvidersState;
 };
