@@ -160,6 +160,7 @@ export const SubstraHooksProvider = ({
     <SubstraHooksContext.Provider
       value={{
         apiProvidersState,
+        apiProvidersStateDispatch,
         defaultApiProviderId,
         errorsState,
         errorsDispatch,

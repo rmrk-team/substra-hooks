@@ -13,7 +13,7 @@ type ProvidersPayload = {
   };
   [Types.SET_PROVIDER]: {
     provider: ApiProvider;
-    id: string
+    id: string;
   };
 };
 
@@ -25,7 +25,9 @@ export const providersReducer = (state: ProvidersState, action: ProvidersActions
       return merge(state, { apiProviders: action.payload.apiProviders });
 
     case Types.SET_PROVIDER:
-      return merge(state, { apiProviders: {...state.apiProviders, [action.payload.id]: action.payload.provider} });
+      return merge(state, {
+        apiProviders: merge(state.apiProviders, { [action.payload.id]: action.payload.provider }),
+      });
 
     default:
       return state;
