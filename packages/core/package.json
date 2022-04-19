@@ -1,6 +1,6 @@
 {
   "name": "@substra-hooks/core",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
@@ -27,11 +27,11 @@
     "@babel/plugin-proposal-optional-chaining": "^7.13.8",
     "@babel/preset-env": "^7.13.9",
     "@babel/preset-typescript": "^7.13.0",
-    "@polkadot/api": "^7.15.1",
-    "@polkadot/extension-dapp": "^0.42.10",
-    "@polkadot/keyring": "^8.7.1",
-    "@polkadot/util": "^8.7.1",
-    "@polkadot/util-crypto": "^8.7.1",
+    "@polkadot/api": "^8.1.1",
+    "@polkadot/extension-dapp": "^0.43.1",
+    "@polkadot/keyring": "^9.0.1",
+    "@polkadot/util": "^9.0.1",
+    "@polkadot/util-crypto": "^9.0.1",
     "@types/jest": "^27.4.1",
     "@types/ramda": "^0.27.46",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
@@ -50,11 +50,11 @@
     "ramda": "^0.27.1"
   },
   "peerDependencies": {
-    "@polkadot/api": "^7.x",
-    "@polkadot/extension-dapp": "^0.42.x",
-    "@polkadot/keyring": "^8.x",
-    "@polkadot/util": "^8.x",
-    "@polkadot/util-crypto": "^8.x",
+    "@polkadot/api": "^8.x",
+    "@polkadot/extension-dapp": "^0.43.x",
+    "@polkadot/keyring": "^9.x",
+    "@polkadot/util": "^9.x",
+    "@polkadot/util-crypto": "^9.x",
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2"
   }
