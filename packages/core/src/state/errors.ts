@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { mergeRight } from 'ramda';
 import { ActionMap } from '../types/reducer';
 
 export interface ErrorsState {
@@ -23,8 +23,8 @@ export type ErrorsActions = ActionMap<ErrorsPayload>[keyof ActionMap<ErrorsPaylo
 export const errorsReducer = (state: ErrorsState, action: ErrorsActions) => {
   switch (action.type) {
     case ErrorActionTypes.BLOCK_SYNC_ERROR:
-      return merge(state, {
-        blockSyncErrors: merge(state.blockSyncErrors, {
+      return mergeRight(state, {
+        blockSyncErrors: mergeRight(state.blockSyncErrors, {
           [action.payload.network]: action.payload.error,
         }),
       });

@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { mergeRight } from 'ramda';
 import { ApiProvider, ProvidersState } from './context';
 import { ActionMap } from '../../types/reducer';
 
@@ -22,11 +22,11 @@ export type ProvidersActions = ActionMap<ProvidersPayload>[keyof ActionMap<Provi
 export const providersReducer = (state: ProvidersState, action: ProvidersActions) => {
   switch (action.type) {
     case Types.SET_PROVIDERS:
-      return merge(state, { apiProviders: action.payload.apiProviders });
+      return mergeRight(state, { apiProviders: action.payload.apiProviders });
 
     case Types.SET_PROVIDER:
-      return merge(state, {
-        apiProviders: merge(state.apiProviders, { [action.payload.id]: action.payload.provider }),
+      return mergeRight(state, {
+        apiProviders: mergeRight(state.apiProviders, { [action.payload.id]: action.payload.provider }),
       });
 
     default:

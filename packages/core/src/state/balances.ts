@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { mergeRight } from 'ramda';
 import { BalanceReturnType } from '../helpers';
 import { ActionMap } from '../types/reducer';
 
@@ -29,14 +29,14 @@ export type BalancesActions = ActionMap<BalancesPayload>[keyof ActionMap<Balance
 export const balancesReducer = (state: BalancesState, action: BalancesActions) => {
   switch (action.type) {
     case BalanceTypes.SET_BALANCE:
-      return merge(state, {
-        balances: merge(state.balances, { [action.payload.network]: action.payload.balance }),
+      return mergeRight(state, {
+        balances: mergeRight(state.balances, { [action.payload.network]: action.payload.balance }),
       });
 
     case BalanceTypes.SET_ASSET:
-      return merge(state, {
-        assets: merge(state.assets, {
-          [action.payload.network]: merge(state.assets[action.payload.network] || {}, {
+      return mergeRight(state, {
+        assets: mergeRight(state.assets, {
+          [action.payload.network]: mergeRight(state.assets[action.payload.network] || {}, {
             [action.payload.assetId]: action.payload.balance,
           }),
         }),

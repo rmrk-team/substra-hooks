@@ -1,5 +1,6 @@
 {
   "env": {
+    "es2020": true,
     "es6": true,
     "node": true,
     "mocha": true,
@@ -20,9 +21,8 @@
     "no-redeclare": "off",
     "no-unused-vars": "off",
     "prefer-const": ["error", {"destructuring": "all"}],
-    "semi": ["error", "never"],
-    "no-extra-semi": "off",
-    "@typescript-eslint/no-extra-semi": "off"
+    "@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   "overrides": [
     {

@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { mergeRight } from 'ramda';
 import { ExtensionState } from './context';
 import { ActionMap } from '../../types/reducer';
 
@@ -25,13 +25,13 @@ export type ExtensionActions = ActionMap<ExtensionPayload>[keyof ActionMap<Exten
 export const extensionReducer = (state: ExtensionState, action: ExtensionActions) => {
   switch (action.type) {
     case Types.W3_ENABLE:
-      return merge(state, { w3Enabled: action.payload.w3Enabled });
+      return mergeRight(state, { w3Enabled: action.payload.w3Enabled });
 
     case Types.ACCOUNTS_SET:
-      return merge(state, { accounts: action.payload.accounts });
+      return mergeRight(state, { accounts: action.payload.accounts });
 
     case Types.INITIALIZE:
-      return merge(state, { initialised: action.payload.initialised });
+      return mergeRight(state, { initialised: action.payload.initialised });
 
     default:
       return state;
