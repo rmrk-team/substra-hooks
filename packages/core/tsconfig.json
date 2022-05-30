@@ -1,15 +1,26 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "strict": true,
+    "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
+    "strictNullChecks": true,              /* Enable strict null checks. */
+    "strictFunctionTypes": true,           /* Enable strict checking of function types. */
+    "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
+    "noImplicitOverride": true,
+    "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
+    "alwaysStrict": true,
+    "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDeclarationOnly": true,
     "outDir": "dist",
-    "module": "commonjs",
     "composite": true,
-    "declaration": true,
-    "sourceMap": true,
-    "declarationMap": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
   },
   "include": [
     "src",
