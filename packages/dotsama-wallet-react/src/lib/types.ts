@@ -23,7 +23,6 @@ export enum WALLET_EXTENSIONS {
   polkadot = 'polkadot-js',
   subwallet = 'subwallet-js',
   talisman = 'talisman',
-  metamask = 'metamask',
 }
 
 export enum MOBILE_WALLET_APPS {

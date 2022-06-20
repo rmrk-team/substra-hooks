@@ -88,40 +88,4 @@ export const useSelectedAccountsStore = create<TSelectedAccountsStore>()(
 
 export const setSelectedAccountSelector = (state: TSelectedAccountsStore) =>
   state.setSelectedAccount;
-
 export const selectedAccountSelector = (state: TSelectedAccountsStore) => state.selectedAccount;
-
-/*
- * Metamask account store
- */
-
-export type TMetaMaskAccountStore = {
-  metaMaskAccount: string;
-  setMetaMaskAccount: (metaMaskAccount: string) => void;
-  setWrongNetwork: (wrongNetwork: boolean) => void;
-  wrongNetwork: boolean;
-};
-
-export const useMetaMaskAccountStore = create<TMetaMaskAccountStore>()(
-  persist(
-    (set) => ({
-      setMetaMaskAccount: (metaMaskAccount: string) => {
-        set({ metaMaskAccount });
-      },
-      setWrongNetwork: (wrongNetwork: boolean) => {
-        set({ wrongNetwork });
-      },
-      metaMaskAccount: '',
-      wrongNetwork: false,
-    }),
-    {
-      name: 'metamask-account',
-    },
-  ),
-);
-
-export const setMetaMaskAccountSelector = (state: TMetaMaskAccountStore) =>
-  state.setMetaMaskAccount;
-export const metaMaskAccountSelector = (state: TMetaMaskAccountStore) => state.metaMaskAccount;
-export const setWrongNetworkSelector = (state: TMetaMaskAccountStore) => state.setWrongNetwork;
-export const wrongNetworkSelector = (state: TMetaMaskAccountStore) => state.wrongNetwork;
