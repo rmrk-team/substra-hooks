@@ -2,8 +2,7 @@
   "name": "substra-hooks",
   "private": true,
   "engines": {
-    "node": ">=14",
-    "yarn": "^1.22.11"
+    "node": ">=16"
   },
   "workspaces": {
     "packages": [

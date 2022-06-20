@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["es2017", "dom", "es2019", "es2020", "esnext"],
+    "target": "es2020",
+    "outDir": "dist",
+    "module": "commonjs",
+    "composite": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "additionals.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
