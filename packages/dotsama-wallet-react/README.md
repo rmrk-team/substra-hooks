@@ -8,3 +8,5 @@ Opinionated because:
 
 - uses [Chakra UI](https://chakra-ui.com/) for UI and styling.
 - uses [zustand](https://github.com/pmndrs/zustand) for state management
+
+[Example use](../example-nextjs/pages/index.tsx)
