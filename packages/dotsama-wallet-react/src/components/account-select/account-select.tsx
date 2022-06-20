@@ -25,7 +25,7 @@ import {
   selectedWalletSelector,
   setSelectedWalletSelector,
   useWalletsStore,
-} from '../../lib/store';
+} from '../../lib/store/use-wallet-store';
 import { getWalletBySource } from '../../lib/wallets';
 import { useSearchInObjects } from '../../hooks/use-search-in-objects';
 import SearchBox from '../common/search-box';

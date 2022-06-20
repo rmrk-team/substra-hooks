@@ -16,10 +16,7 @@ const SubstraHooksProviderSSR = ({
     <SubstraHooksProvider
       apiProviderConfig={apiProviderConfig}
       defaultApiProviderId={defaultApiProviderId || 'kusama'}>
-      <ExtensionProvider autoInitialiseExtension={false}>
-        {children}
-      </ExtensionProvider>
-
+      {children}
     </SubstraHooksProvider>
   );
 };

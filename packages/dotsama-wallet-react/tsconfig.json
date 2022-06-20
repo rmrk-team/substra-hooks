@@ -1,10 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "jsx": "preserve",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "lib": ["es2017", "dom", "es2019", "es2020", "esnext"],
     "target": "es2020",
@@ -21,9 +17,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.js",
-    "src/**/*.jsx",
-    "index.d.ts"
+    "additionals.d.ts"
   ],
   "exclude": [
     "node_modules"

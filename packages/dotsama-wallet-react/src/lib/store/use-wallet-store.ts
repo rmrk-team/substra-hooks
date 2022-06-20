@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-import { WALLET_EXTENSIONS } from './types';
+import { WALLET_EXTENSIONS } from '../types';
 
 export type TWalletsStore = {
   selectedWallet: WALLET_EXTENSIONS | null;

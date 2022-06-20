@@ -1,4 +1,4 @@
-import { useWalletsStore } from '../store';
+import { useWalletsStore } from '../store/use-wallet-store';
 import { getWalletBySource } from '../wallets';
 import { WALLET_EXTENSIONS } from '../types';
 

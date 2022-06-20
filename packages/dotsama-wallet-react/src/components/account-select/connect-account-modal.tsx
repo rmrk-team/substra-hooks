@@ -18,7 +18,7 @@ import {
 import { ACCOUNT_MODAL_STEPS } from '../../lib/store/types';
 import WalletSelect from '../wallet/wallet-select';
 
-const ConnectAccountModal = () => {
+export const ConnectAccountModal = () => {
   const modalOpened = useAccountModalStore(modalOpenedSelector);
   const step = useAccountModalStore(stepSelector);
   const toggleAccountSelectionModal = useAccountModalStore(toggleAccountSelectionModalSelector);
@@ -50,5 +50,3 @@ const ConnectAccountModal = () => {
     </Modal>
   );
 };
-
-export default ConnectAccountModal;

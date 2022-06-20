@@ -1,6 +1,6 @@
-import logo from '../../../logos/polkadot-js-logo.svg';
 import { BaseDotsamaWallet } from '../../../base-dotsama-wallet/base-dotsama-wallet';
 import { WALLET_EXTENSIONS } from '../../../types';
+import { icons } from '../../../logos-svg';
 
 export class PolkadotjsWallet extends BaseDotsamaWallet {
   extensionName = WALLET_EXTENSIONS.polkadot;
@@ -12,7 +12,7 @@ export class PolkadotjsWallet extends BaseDotsamaWallet {
     firefox: 'https://addons.mozilla.org/en-GB/firefox/addon/polkadot-js-extension/',
   };
   logo = {
-    src: logo,
+    src: `data:image/svg+xml;base64,${btoa(icons.polkadotJsLogo)}`,
     alt: 'Polkadotjs Logo',
   };
 }

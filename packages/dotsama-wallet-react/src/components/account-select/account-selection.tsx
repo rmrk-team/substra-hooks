@@ -10,7 +10,7 @@ import {
   useAccountModalStore,
   useAccountsStore,
 } from '../../lib/store/use-account-store';
-import { selectedWalletSelector, useWalletsStore } from '../../lib/store';
+import { selectedWalletSelector, useWalletsStore } from '../../lib/store/use-wallet-store';
 import { getWalletBySource } from '../../lib/wallets';
 import { ACCOUNT_MODAL_STEPS } from '../../lib/store/types';
 import AccountSelect from './account-select';

@@ -12,7 +12,7 @@ import {
   selectedWalletSelector,
   setSelectedWalletSelector,
   useWalletsStore,
-} from '../../lib/store';
+} from '../../lib/store/use-wallet-store';
 import { getWalletBySource, isWalletInstalled } from '../../lib/wallets';
 import { isMobile } from '../../lib/utils/ua-detect';
 import { WALLET_EXTENSIONS } from '../../lib/types';

@@ -3,7 +3,7 @@ import { Box, VStack } from '@chakra-ui/react';
 import WalletSwitchDesktop from './wallet-switch-desktop';
 import { useSystemProperties } from '@substra-hooks/core';
 import { dashify } from '../../lib/utils/dashify';
-import { setSelectedWalletSelector, useWalletsStore } from '../../lib/store';
+import { setSelectedWalletSelector, useWalletsStore } from '../../lib/store/use-wallet-store';
 import { WALLET_EXTENSIONS } from '../../lib/types';
 import { desktopWallets, getWalletBySource, mobileWallets } from '../../lib/wallets';
 import {

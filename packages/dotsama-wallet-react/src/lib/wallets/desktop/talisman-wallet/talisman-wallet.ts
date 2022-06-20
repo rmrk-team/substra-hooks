@@ -1,6 +1,6 @@
-import logo from '../../../logos/talisman-logo.svg';
 import { BaseDotsamaWallet } from '../../../base-dotsama-wallet/base-dotsama-wallet';
 import { WALLET_EXTENSIONS } from '../../../types';
+import { icons } from '../../../logos-svg';
 
 export class TalismanWallet extends BaseDotsamaWallet {
   extensionName = WALLET_EXTENSIONS.talisman;
@@ -13,7 +13,7 @@ export class TalismanWallet extends BaseDotsamaWallet {
   };
   noExtensionMessage = 'You can use any Polkadot compatible wallet';
   logo = {
-    src: logo,
+    src: `data:image/svg+xml;base64,${btoa(icons.talismanLogo)}`,
     alt: 'Talisman Logo',
   };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Alert, AlertIcon, AlertDescription } from '@chakra-ui/react';
-import { selectedWalletSelector, useWalletsStore } from '../../lib/store';
+import { selectedWalletSelector, useWalletsStore } from '../../lib/store/use-wallet-store';
 import { getWalletBySource } from '../../lib/wallets';
 
 const NowAllowed = () => {

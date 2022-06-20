@@ -1,6 +1,6 @@
-import logo from '../../../logos/sub-wallet-logo.svg';
 import { BaseDotsamaWallet } from '../../../base-dotsama-wallet/base-dotsama-wallet';
 import { WALLET_EXTENSIONS } from '../../../types';
+import { icons } from '../../../logos-svg';
 
 export class SubWallet extends BaseDotsamaWallet {
   extensionName = WALLET_EXTENSIONS.subwallet;
@@ -12,7 +12,7 @@ export class SubWallet extends BaseDotsamaWallet {
   };
   noExtensionMessage = 'You can use any Polkadot compatible wallet';
   logo = {
-    src: logo,
+    src: `data:image/svg+xml;base64,${btoa(icons.subWalletLogo)}`,
     alt: 'Subwallet Logo',
   };
 }
