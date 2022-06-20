@@ -19,7 +19,7 @@ import {
   selectedWalletSelector,
   useWalletsStore,
   ACCOUNT_MODAL_STEPS,
-} from '@substra-hooks/dotsama-wallet-react';
+} from '@rmrk-team/dotsama-wallet-react';
 import { Box, Button } from '@chakra-ui/react';
 
 const shortenAccountName = (name: string, sliceSize: number = 6) => {
