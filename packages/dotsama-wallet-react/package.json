@@ -22,8 +22,8 @@
     "@polkadot/keyring": "*",
     "@polkadot/util": "*",
     "@polkadot/util-crypto": "*",
-    "react": "18.*",
-    "react-dom": "18.*"
+    "react": "*",
+    "react-dom": "*"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
@@ -32,10 +32,7 @@
     "@react-icons/all-files": "^4.1.0",
     "@substra-hooks/core": "^0.0.51",
     "fuse.js": "^6.6.2",
-    "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
-    "react-dom": "18.2.0",
-    "svg-to-ts": "^8.8.0",
     "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
@@ -44,7 +41,10 @@
     "@types/react": "18.0.14",
     "@types/react-copy-to-clipboard": "^5.0.2",
     "@types/react-dom": "18.0.5",
-    "rimraf": "^3.0.2"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "rimraf": "^3.0.2",
+    "svg-to-ts": "^8.8.0"
   },
   "keywords": [
     "react",
