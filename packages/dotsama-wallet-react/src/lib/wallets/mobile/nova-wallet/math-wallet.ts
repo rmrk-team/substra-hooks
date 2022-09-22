@@ -8,7 +8,7 @@ export const mathWallet: WalletMobile = {
     ios: 'https://apps.apple.com/us/app/math-wallet-blockchain-wallet/id1383637331',
   },
   logo: {
-    src: 'https://rmrk.mypinata.cloud/ipfs/QmQJDumvuyzMfh9bntXZtgzQp6xeRYr4F2DraL8hvGuzr1',
+    src: 'https://crustwebsites.net/ipfs/QmQJDumvuyzMfh9bntXZtgzQp6xeRYr4F2DraL8hvGuzr1',
     alt: 'Math Wallet Logo',
   },
 };
