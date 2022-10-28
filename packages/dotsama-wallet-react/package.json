@@ -1,7 +1,7 @@
 {
   "name": "@rmrk-team/dotsama-wallet-react",
   "description": "Highly opinionated dotsama wallet in React",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "rmrk-team/substra-hooks",
   "author": "RMRK team",
   "homepage": "https://rmrk.app",
@@ -28,12 +28,12 @@
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
     "@chakra-ui/system": "^2.1.3",
-    "@polkadot/react-identicon": "^2.5.1",
+    "@polkadot/react-identicon": "^2.9.12",
     "@react-icons/all-files": "^4.1.0",
-    "@substra-hooks/core": "^0.0.51",
+    "@substra-hooks/core": "^0.0.52",
     "fuse.js": "^6.6.2",
     "react-copy-to-clipboard": "^5.1.0",
-    "zustand": "^4.0.0-rc.1"
+    "zustand": "^4.1.3"
   },
   "devDependencies": {
     "@chakra-ui/icons": "2.0.2",
