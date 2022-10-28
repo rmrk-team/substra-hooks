@@ -3544,6 +3544,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@substra-hooks/core@^0.0.52":
+  version "0.0.52"
+  resolved "https://registry.yarnpkg.com/@substra-hooks/core/-/core-0.0.52.tgz#cab2d2571449b39e4e026a0ff6ed207e63874b0a"
+  integrity sha512-grxAWjEKGYUA6ffZ0CKRNBuUF0jYkjwlaDq3UGzReEr9dSd7SeyC16Vt4PbfwlyfYvKNdzwo9hsyZNcIfqK6Ig==
+  dependencies:
+    "@types/react" "17.0.34"
+    nanoid "3.3.1"
+    ramda "^0.28.0"
+
 "@substrate/connect-extension-protocol@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@substrate/connect-extension-protocol/-/connect-extension-protocol-1.0.1.tgz#fa5738039586c648013caa6a0c95c43265dbe77d"
