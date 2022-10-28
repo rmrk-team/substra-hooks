@@ -18,7 +18,7 @@ import { isMobile } from '../../lib/utils/ua-detect';
 import { WALLET_EXTENSIONS } from '../../lib/types';
 import { ACCOUNT_MODAL_STEPS } from '../../lib/store/types';
 
-const AccountStoreSync = () => {
+export const AccountStoreSync = () => {
   const setSelectedAccount = useSelectedAccountsStore(setSelectedAccountSelector);
   const setAccounts = useAccountsStore(setAccountsSelector);
   const selectedWallet = useWalletsStore(selectedWalletSelector);
@@ -62,4 +62,3 @@ const AccountStoreSync = () => {
   return null;
 };
 
-export default AccountStoreSync;

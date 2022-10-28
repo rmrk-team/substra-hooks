@@ -1,2 +1,2 @@
-export * from './components/account-select/connect-account-modal';
 export * from './lib';
+export * from './components/account-select'

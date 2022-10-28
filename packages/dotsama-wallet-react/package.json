@@ -1,7 +1,7 @@
 {
   "name": "@rmrk-team/dotsama-wallet-react",
   "description": "Highly opinionated dotsama wallet in React",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "repository": "rmrk-team/substra-hooks",
   "author": "RMRK team",
   "homepage": "https://rmrk.app",
