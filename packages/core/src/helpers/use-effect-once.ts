@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useEffectOnce = (effect: () => void | (() => void)) => {
   const destroyFunc = useRef<void | (() => void)>();
@@ -10,7 +10,7 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
     renderAfterCalled.current = true;
   }
 
-  useEffectOnce(() => {
+  useEffect(() => {
     // only execute the effect first time around
     if (!effectCalled.current) {
       destroyFunc.current = effect();
@@ -30,5 +30,5 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
         destroyFunc.current();
       }
     };
-  });
+  }, []);
 };
