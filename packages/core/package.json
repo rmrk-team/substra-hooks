@@ -1,6 +1,6 @@
 {
   "name": "@substra-hooks/core",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "main": "dist/cjs/src/index.js",
   "module": "dist/esm/src/index.js",
   "types": "dist/esm/src/index.d.ts",
