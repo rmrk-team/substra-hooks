@@ -1,4 +1,8 @@
+# Deprecated
+
 # SubstraHooks Core
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 SubstraHooks is a collection of useful react hooks that work with polkadot.js on [Substrate](https://substrate.io/) blockchains
 
