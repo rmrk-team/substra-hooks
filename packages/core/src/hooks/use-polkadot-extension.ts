@@ -28,7 +28,12 @@ export const checkEnabled: (extensionName: string, systemProperties: ISystemProp
   return { accounts, w3Enabled };
 };
 
-export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
+type Options = {
+  skip?: boolean
+}
+
+export const usePolkadotExtension = (options?: Options): UsePolkadotExtensionReturnType => {
+  const { skip = false } = options || {};
   const isMountedRef = useIsMountedRef();
   const { state, dispatch, extensionName } = useExtensionState();
   const { w3Enabled, accounts, initialised } = state;
@@ -36,7 +41,7 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
   const systemProperties = useSystemProperties();
 
   useEffect(() => {
-    if (ready && systemProperties && !w3Enabled) {
+    if (!skip && ready && systemProperties && !w3Enabled) {
       checkEnabled(extensionName || 'polkadot-extension', systemProperties).then(({ accounts, w3Enabled }) => {
         if (isMountedRef.current) {
           if (w3Enabled) {
@@ -64,7 +69,7 @@ export const usePolkadotExtension = (): UsePolkadotExtensionReturnType => {
         }
       });
     }
-  }, [ready, w3Enabled, systemProperties]);
+  }, [ready, w3Enabled, systemProperties, skip]);
 
   const w3enable = () => {
     setReady(true);

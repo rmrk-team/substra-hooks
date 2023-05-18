@@ -154,7 +154,11 @@ export const SubstraHooksProvider = ({
         wsProvider?.on('connected', connectedHandler);
       });
     }
-  }, [JSON.stringify(apiProvidersState.apiProviders), isMountedRef]);
+  }, [
+    JSON.stringify(apiProvidersState.apiProviders?.provider?.rpcEndpoint),
+    JSON.stringify(apiProvidersState.apiProviders?.provider?.systemProperties),
+    isMountedRef,
+  ]);
 
   return (
     <SubstraHooksContext.Provider

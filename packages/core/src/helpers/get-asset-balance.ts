@@ -17,10 +17,10 @@ export const getAssetBalance = async (
   getAsset.account(assetId, account).then((accountData) => {
     if (accountData) {
       getAsset.metadata(assetId).then((data) => {
-        //@ts-ignore
         const balanceRaw = accountData.value.balance?.toBigInt() || BigInt(0);
         const tokenDecimals = data.decimals.toNumber();
         const tokenSymbol = hexToString(data.symbol.toHex());
+
         const balanceFormatted = formatPrice(
           balanceRaw,
           { tokenDecimals, tokenSymbol, ss58Format: _systemProperties.ss58Format },

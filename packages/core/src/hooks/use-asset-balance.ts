@@ -7,11 +7,17 @@ import { useApiProvider } from './use-api-provider';
 import { SubstraHooksContext, useSubstraHooksState } from '../providers';
 import { BalanceTypes } from '../state/balances';
 
+type Options = {
+  skip?: boolean
+}
+
 export const useAssetBalance = (
   account: string,
   assetId: number,
   apiProviderId?: string,
+  options?: Options
 ): BalanceReturnType | null => {
+  const { skip = false } = options || {};
   const apiProvider = useApiProvider(apiProviderId);
   const defaultId = useContext(SubstraHooksContext).defaultApiProviderId;
   const isMountedRef = useIsMountedRef();
@@ -21,7 +27,7 @@ export const useAssetBalance = (
   const networkId = apiProviderId || defaultId;
 
   useEffect(() => {
-    if (account && apiProvider && assetId) {
+    if (!skip && account && apiProvider && assetId) {
       const callback = ({ balance }: BalanceReturnType) => {
         if (isMountedRef.current) {
           balancesDispatch({
@@ -32,7 +38,7 @@ export const useAssetBalance = (
       };
       getAssetBalance(account, assetId, apiProvider, callback, systemProperties);
     }
-  }, [account, assetId, apiProvider, systemProperties, isMountedRef]);
+  }, [account, assetId, JSON.stringify(apiProvider?.rpc), systemProperties, isMountedRef, skip]);
 
   return balancesState.assets[networkId]?.[assetId] || null;
 };

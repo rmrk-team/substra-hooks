@@ -23,12 +23,12 @@ export const getAccountBalance = async (
 ) => {
   api.query.system.account(
     account,
-    async ({ data: { free: currentFree, feeFrozen: currentLocked, reserved: currentReserved } }) => {
+    async ({ data: { free: currentFree, frozen: currentLocked, reserved: currentReserved } }) => {
       const { availableBalance } = await api.derive.balances.all(account);
 
-      const balanceRaw = currentFree.toBigInt();
-      const balanceLockedRaw = currentLocked.toBigInt();
-      const balanceReservedRaw = currentReserved.toBigInt();
+      const balanceRaw = currentFree?.toBigInt() || BigInt(0);
+      const balanceLockedRaw = currentLocked?.toBigInt() || BigInt(0);
+      const balanceReservedRaw = currentReserved?.toBigInt() || BigInt(0);
       const balanceTotalRaw = balanceRaw + balanceReservedRaw;
 
       const balanceFormatted = formatPrice(balanceRaw, systemProperties, true);

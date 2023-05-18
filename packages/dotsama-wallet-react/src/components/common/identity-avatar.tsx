@@ -44,7 +44,9 @@ const IdentityAvatar = ({ userpicUrl, size, id }: IProps) => {
           overflow={'hidden'}
           position={'relative'}
           cursor="copy">
-          <Image src={userpicUrl} layout={'fill'} objectFit={'cover'} quality={50} />
+          <Image alt={id} src={userpicUrl} fill style={{
+            objectFit: 'cover'
+          }} quality={50} />
         </Box>
       ) : (
         <Identicon size={size} value={id} theme="polkadot" />

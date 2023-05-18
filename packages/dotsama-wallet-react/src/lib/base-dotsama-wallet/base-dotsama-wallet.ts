@@ -75,8 +75,8 @@ export class BaseDotsamaWallet implements Omit<Wallet, 'extensionName' | 'getAcc
 
     try {
       const injectedExtension = this.rawExtension;
-      const rawExtension = await injectedExtension?.enable(DAPP_NAME);
-      if (!rawExtension) {
+      const rawExtension = await injectedExtension?.enable?.(DAPP_NAME);
+      if (!rawExtension || !injectedExtension.version) {
         return;
       }
 

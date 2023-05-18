@@ -65,6 +65,8 @@ const Home: NextPage = () => {
   const assetPayload = useAssetBalance(selectedAccount?.address as string, 8, 'statemine');
   const systemProperties = useSystemProperties();
 
+  console.log('assetPayload', assetPayload)
+
   return (
     <Box>
       <Head>
