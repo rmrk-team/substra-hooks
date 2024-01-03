@@ -18,7 +18,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@changesets/cli": "^2.25.0",
+    "@changesets/cli": "^2.26.1",
     "prettier": "2.4.1",
     "wsrun": "^5.2.1"
   }

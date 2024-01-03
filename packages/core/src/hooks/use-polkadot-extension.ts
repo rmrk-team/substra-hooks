@@ -23,7 +23,7 @@ export const checkEnabled: (extensionName: string, systemProperties: ISystemProp
   let accounts = null;
 
   if (w3Enabled) {
-    accounts = await web3Accounts({ ss58Format: systemProperties.ss58Format });
+    accounts = await web3Accounts({ ss58Format: systemProperties.ss58Format, accountType: ['sr25519'] });
   }
   return { accounts, w3Enabled };
 };

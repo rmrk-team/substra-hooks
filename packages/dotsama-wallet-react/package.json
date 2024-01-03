@@ -28,9 +28,9 @@
   "dependencies": {
     "@chakra-ui/react": "^2.6.1",
     "@chakra-ui/system": "^2.5.7",
-    "@polkadot/react-identicon": "^2.9.12",
+    "@polkadot/react-identicon": "^3.6.4",
     "@react-icons/all-files": "^4.1.0",
-    "@substra-hooks/core": "^0.0.60",
+    "@substra-hooks/core": "^0.0.61",
     "fuse.js": "^6.6.2",
     "react-copy-to-clipboard": "^5.1.0",
     "zustand": "^4.1.3",

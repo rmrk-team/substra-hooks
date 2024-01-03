@@ -107,7 +107,7 @@ export class BaseDotsamaWallet implements Omit<Wallet, 'extensionName' | 'getAcc
     }
 
     const unsubscribe = this._extension.accounts.subscribe((accounts: InjectedAccount[]) => {
-      const accountsWithWallet = accounts.map((account) => {
+      const accountsWithWallet = accounts.filter(a => a.type === 'sr25519').map((account) => {
         return {
           ...account,
           address: encodeAddress(account.address, ss58Format),

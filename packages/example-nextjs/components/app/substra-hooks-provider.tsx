@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { ApiProviderConfig, SubstraHooksProvider, ExtensionProvider } from '@substra-hooks/core';
+import { ApiProviderConfig, SubstraHooksProvider } from '@substra-hooks/core';
 
 interface ISubstraHooksProviderProps {
   apiProviderConfig: ApiProviderConfig;
